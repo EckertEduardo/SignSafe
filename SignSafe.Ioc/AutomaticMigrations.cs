@@ -1,18 +1,27 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Builder;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.DependencyInjection;
 using SignSafe.Data.Context;
 
 namespace SignSafe.Ioc
 {
     public static class AutomaticMigrations
     {
-        public static void Run(MyContext context)
+        public static void ApplyMigrations(this IApplicationBuilder app)
         {
-            if (context.Database.ProviderName != "Microsoft.EntityFrameworkCore.InMemory")
+            using (var serviceScope = app.ApplicationServices.CreateScope())
             {
-                context
-                    .Database
-                    .Migrate();
-            }
+                var context = serviceScope
+                        .ServiceProvider
+                        .GetRequiredService<MyContext>();
+
+                if (context.Database.IsRelational())
+                {
+                    context
+                        .Database
+                        .Migrate();
+                }
+            };
         }
     }
 }
