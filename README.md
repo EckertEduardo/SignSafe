@@ -39,6 +39,12 @@ Framework: Xunit
 
 ### Communication
 * Api Rest
+
+### Containerization
+* Docker
+  - Images : 
+     - mcr.microsoft.com/mssql/server:2019-latest
+     - mcr.microsoft.com/dotnet/sdk:8.0
  
 ### Technologies Used 
 <table> 
