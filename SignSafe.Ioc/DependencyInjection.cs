@@ -38,14 +38,7 @@ namespace SignSafe.Ioc
 
         private static void AddInfrastructure(WebApplicationBuilder builder)
         {
-            var dataSource = Environment.GetEnvironmentVariable("DB_HOST");
-            var catalog = Environment.GetEnvironmentVariable("DB_NAME");
-            var password = Environment.GetEnvironmentVariable("DB_SA_PASSWORD");
-            var connectionString = !string.IsNullOrEmpty(dataSource)
-                ? $"Data Source={dataSource};Initial Catalog={catalog};User ID=sa;Password={password};Connect Timeout=30;Encrypt=False;TrustServerCertificate=False;ApplicationIntent=ReadWrite;MultiSubnetFailover=False"
-                : builder.Configuration.GetConnectionString("DefaultConnection");
-
-            builder.Services.AddDbContext<MyContext>(options => options.UseSqlServer(connectionString));
+            builder.Services.AddDbContext<MyContext>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
         }
 
         private static void AddContext(IServiceCollection services)
