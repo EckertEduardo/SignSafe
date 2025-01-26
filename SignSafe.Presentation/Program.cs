@@ -1,5 +1,4 @@
 using Microsoft.OpenApi.Models;
-using SignSafe.Data.Context;
 using SignSafe.Ioc;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -47,14 +46,7 @@ if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
     app.UseSwaggerUI();
-
-    using (var serviceScope = app.Services.CreateScope())
-    {
-        var context = serviceScope
-                .ServiceProvider
-                .GetRequiredService<MyContext>();
-        AutomaticMigrations.Run(context);
-    };
+    app.ApplyMigrations();
 }
 
 app.UseCors(options => options.AllowAnyHeader().AllowAnyMethod().AllowAnyOrigin());
