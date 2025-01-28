@@ -45,7 +45,8 @@ Framework: Xunit
   - Images : 
      - mcr.microsoft.com/mssql/server:2019-latest
      - mcr.microsoft.com/dotnet/sdk:8.0
- 
+     - eduardoeckert/signsafepresentation:v1
+
 ### Technologies Used 
 <table> 
 <tr>
@@ -63,3 +64,28 @@ Framework: Xunit
  
 </tr>
 </table>
+
+---
+
+### How to run this application?
+
+Prerequisites:
+  1. You need to have the [DockerComposePlugin](https://docs.docker.com/compose/install) installed (Docker Desktop already includes Docker Compose).
+     To check, run this command in your CLI:
+     ```
+     docker compose version
+     ```
+     The output should look like: **Docker Compose version vX.Y.Z**
+
+Running:
+This is a containerized application, so you just need to follow these simple steps:
+1. Download the docker-compose.yml application file
+   * If needed, you can modify the output port inside the file. - Default output port -> **8080**
+2. Go to the directory where the docker-compose.yml was dowaloaded and execute:
+   ```
+   docker compose up
+   ```
+3. Access the api by following this link -> [http://localhost/8080/swagger](http://localhost:8080/swagger/index.html)
+   * If you have modified the output port on step 2, you will need to update the URL -> [http://localhost/[output-port]/swagger]
+  
+     That's It!
