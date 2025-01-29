@@ -101,12 +101,14 @@ Framework: Xunit
 ### Running:
 This is a containerized application, so you just need to follow these simple steps:
 1. Download the `docker-compose.yml` application file
-   * If needed, you can modify the output port inside the file. - Default output ports -> **http -> 8080 | https -> 8081**
+   * Obs: If needed, you can modify the output port inside the file. Default output ports -> `http -> 8080` | `https -> 8081`
+     
 2. Open your CLI, go to the directory where the docker-compose.yml was downloaded and execute:
    ```
    docker compose up
    ```
+   
 3. Access the api by following this link -> [https://localhost/8081/swagger](https://localhost:8081/swagger/index.html)
-   * If you have modified the output port on step 2, you will need to update the URL -> [https://localhost/[output-port]/swagger]
+   * Obs: If you have modified the output port on step 2, you will need to update the URL -> [https://localhost/[output-port]/swagger]
   
      That's it!
