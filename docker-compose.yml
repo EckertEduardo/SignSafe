@@ -1,8 +1,6 @@
-version: '3.4'
-
 services:
   signsafe.presentation:
-    image: eduardoeckert/signsafepresentation:v1
+    image: eduardoeckert/sign-safe-api
     container_name: signsafe.api
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
@@ -11,6 +9,8 @@ services:
       - DB_HOST=signsafe.database
       - DB_NAME=SignSafe
       - DB_SA_PASSWORD=Password2019! 
+      - ASPNETCORE_Kestrel__Certificates__Default__Password=signSafePassword
+      - ASPNETCORE_Kestrel__Certificates__Default__Path=/home/app/.aspnet/https/signsafe.pfx
     build:
       context: .
       dockerfile: SignSafe.Presentation/Dockerfile
@@ -19,9 +19,6 @@ services:
       - 8081:8081
     networks:
       - signsafenetwork
-    volumes:
-      - ${APPDATA}/Microsoft/UserSecrets:/home/app/.microsoft/usersecrets:ro
-      - ${APPDATA}/ASP.NET/Https:/home/app/.aspnet/https:ro
     depends_on:
       - signsafe.database
 
