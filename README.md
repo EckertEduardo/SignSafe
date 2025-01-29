@@ -67,25 +67,46 @@ Framework: Xunit
 
 ---
 
-### How to run this application?
+# How to run this application?
 
-Prerequisites:
+### Prerequisites:
   1. You need to have the [DockerComposePlugin](https://docs.docker.com/compose/install) installed (Docker Desktop already includes Docker Compose).
      To check, run this command in your CLI:
      ```
      docker compose version
      ```
-     The output should look like: **Docker Compose version vX.Y.Z**
+     The output should look like: `Docker Compose version vX.Y.Z`
+    
+  2. You need create a **valid certificate** to be able to access the https port.
+     To create a valid certificate, run this command in your CLI:
+<br><br/>
+   (Windows)
+     ```
+     dotnet dev-certs https -ep "C:\Users\<your-user-name>\AppData\Roaming\ASP.NET\Https\signsafe.pfx"  -p signSafePassword
+     ```
+     * In the preceding commands, replace `<your-user-name>` with the user local host machine.
+     
+     * The path maybe will be different depending on the OS. For more info, click [here](https://learn.microsoft.com/en-us/aspnet/core/security/docker-compose-https?view=aspnetcore-9.0)
+     
+     * The password(after -p) must be `"signSafePassword"`
 
-Running:
+     After this, you will need trust the certificate
+     Run this command in your CLI:
+     ```
+      dotnet dev-certs https --trust
+     ```
+      > ***!* Whithout this valid certificate, the command "docker compose up" will fail**
+
+      
+### Running:
 This is a containerized application, so you just need to follow these simple steps:
-1. Download the docker-compose.yml application file
-   * If needed, you can modify the output port inside the file. - Default output port -> **8080**
-2. Go to the directory where the docker-compose.yml was dowaloaded and execute:
+1. Download the `docker-compose.yml` application file
+   * If needed, you can modify the output port inside the file. - Default output ports -> **http -> 8080 | https -> 8081**
+2. Open your CLI, go to the directory where the docker-compose.yml was downloaded and execute:
    ```
    docker compose up
    ```
-3. Access the api by following this link -> [http://localhost/8080/swagger](http://localhost:8080/swagger/index.html)
-   * If you have modified the output port on step 2, you will need to update the URL -> [http://localhost/[output-port]/swagger]
+3. Access the api by following this link -> [https://localhost/8081/swagger](https://localhost:8081/swagger/index.html)
+   * If you have modified the output port on step 2, you will need to update the URL -> [https://localhost/[output-port]/swagger]
   
-     That's It!
+     That's it!
