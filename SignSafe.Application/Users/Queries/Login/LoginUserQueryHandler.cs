@@ -2,6 +2,7 @@
 using Microsoft.AspNet.Identity;
 using SignSafe.Application.Auth;
 using SignSafe.Data.UoW;
+using SignSafe.Presentation.Exceptions;
 
 namespace SignSafe.Application.Users.Queries.Login
 {
@@ -27,7 +28,7 @@ namespace SignSafe.Application.Users.Queries.Login
                     return _jwtService.GenerateToken(user);
             }
 
-            return "Incorrect email or password";
+            throw new BadRequestException("Incorrect email or password");
         }
     }
 }

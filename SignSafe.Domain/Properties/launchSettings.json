@@ -1,0 +1,12 @@
+{
+  "profiles": {
+    "SignSafe.Domain": {
+      "commandName": "Project",
+      "launchBrowser": true,
+      "environmentVariables": {
+        "ASPNETCORE_ENVIRONMENT": "Development"
+      },
+      "applicationUrl": "https://localhost:61317;http://localhost:61318"
+    }
+  }
+}
