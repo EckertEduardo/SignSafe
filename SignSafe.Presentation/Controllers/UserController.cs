@@ -56,7 +56,7 @@ namespace SignSafe.Presentation.Controllers
         public async Task<IActionResult> Insert([FromBody] InsertUserCommand command)
         {
             await _mediator.Send(command);
-            return Ok();
+            return Created();
         }
 
         [HttpPut]
@@ -82,7 +82,7 @@ namespace SignSafe.Presentation.Controllers
         public async Task<IActionResult> Delete([FromBody] DeleteUserCommand command)
         {
             await _mediator.Send(command);
-            return Ok();
+            return NoContent();
         }
     }
 }

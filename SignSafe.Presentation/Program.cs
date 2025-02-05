@@ -4,6 +4,10 @@ using SignSafe.Presentation.Exceptions;
 
 var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllers();
+builder.Services.AddControllers(options =>
+{
+    options.Filters.Add<NotFoundActionFilter>();
+});
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddJwtConfiguration(builder.Configuration);
 builder.Services.AddExceptionHandlers();
@@ -37,6 +41,7 @@ builder.Services.AddSwaggerGen(c =>
 DependencyInjection.AddDependencyInjection(builder);
 
 var app = builder.Build();
+app.UseExceptionHandler("/Error");
 
 if (!app.Environment.IsDevelopment())
 {
@@ -53,6 +58,10 @@ if (app.Environment.IsDevelopment())
 
 app.UseCors(options => options.AllowAnyHeader().AllowAnyMethod().AllowAnyOrigin());
 app.UseHttpsRedirection();
+
+app.UseMiddleware<RequestLogContextMiddleware>();
+app.UseSerilogRequestLogging();
+
 app.UseAuthentication();
 app.UseAuthorization();
 app.UseExceptionHandler();
