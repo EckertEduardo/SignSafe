@@ -30,6 +30,10 @@ namespace SignSafe.Presentation.Controllers
         public async Task<IActionResult> Login([FromQuery] LoginUserQuery query)
         {
             var result = await _mediator.Send(query);
+            if (result == null)
+            {
+                return NotFound(new { message = "Incorrect Email or Password! Please, try again." });
+            }
             return Ok(result);
         }
 
@@ -56,7 +60,7 @@ namespace SignSafe.Presentation.Controllers
         public async Task<IActionResult> Insert([FromBody] InsertUserCommand command)
         {
             await _mediator.Send(command);
-            return Ok();
+            return Created();
         }
 
         [HttpPut]
@@ -82,7 +86,7 @@ namespace SignSafe.Presentation.Controllers
         public async Task<IActionResult> Delete([FromBody] DeleteUserCommand command)
         {
             await _mediator.Send(command);
-            return Ok();
+            return NoContent();
         }
     }
 }

@@ -5,7 +5,7 @@ using SignSafe.Data.UoW;
 
 namespace SignSafe.Application.Users.Queries.Login
 {
-    public class LoginUserQueryHandler : IRequestHandler<LoginUserQuery, string>
+    public class LoginUserQueryHandler : IRequestHandler<LoginUserQuery, string?>
     {
         private readonly IUnitOfWork _unitOfWork;
         private readonly IJwtService _jwtService;
@@ -16,7 +16,7 @@ namespace SignSafe.Application.Users.Queries.Login
             _jwtService = jwtService ?? throw new ArgumentNullException(nameof(jwtService));
         }
 
-        public async Task<string> Handle(LoginUserQuery request, CancellationToken cancellationToken)
+        public async Task<string?> Handle(LoginUserQuery request, CancellationToken cancellationToken)
         {
             var user = await _unitOfWork.UserRepository.GetByEmail(request.Email);
 
@@ -27,7 +27,7 @@ namespace SignSafe.Application.Users.Queries.Login
                     return _jwtService.GenerateToken(user);
             }
 
-            return "Incorrect email or password";
+            return null;
         }
     }
 }
