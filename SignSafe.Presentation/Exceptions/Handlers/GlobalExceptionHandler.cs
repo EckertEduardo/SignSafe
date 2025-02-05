@@ -44,7 +44,7 @@ namespace SignSafe.Presentation.Exceptions.Handlers
             var reasonPhrase = ReasonPhrases.GetReasonPhrase(statusCode);
             if (string.IsNullOrEmpty(reasonPhrase))
             {
-                reasonPhrase = "An unespected exception ocurred while executing the request";
+                reasonPhrase = "An unexpected exception ocurred while executing the request";
             }
 
             var problemDetails = new ProblemDetails

@@ -9,7 +9,7 @@ namespace SignSafe.Presentation.ApiFilters
         {
             if (context.Result is ObjectResult objectResult && objectResult.Value == null)
             {
-                context.Result = new NotFoundResult();
+                context.Result = new NotFoundObjectResult(new { message = "Not found" });
             }
         }
 

@@ -30,6 +30,10 @@ namespace SignSafe.Presentation.Controllers
         public async Task<IActionResult> Login([FromQuery] LoginUserQuery query)
         {
             var result = await _mediator.Send(query);
+            if (result == null)
+            {
+                return NotFound(new { message = "Incorrect Email or Password! Please, try again." });
+            }
             return Ok(result);
         }
 

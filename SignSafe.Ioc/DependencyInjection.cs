@@ -79,7 +79,7 @@ namespace SignSafe.Ioc
             //User
             services.AddScoped<IRequestHandler<GetUsersByFilterQuery, PaginatedResult<List<UserDto>>>, GetUsersByFilterQueryHandler>();
             services.AddScoped<IRequestHandler<GetUserQuery, UserDto>, GetUserQueryHandler>();
-            services.AddScoped<IRequestHandler<LoginUserQuery, string>, LoginUserQueryHandler>();
+            services.AddScoped<IRequestHandler<LoginUserQuery, string?>, LoginUserQueryHandler>();
 
         }
 
