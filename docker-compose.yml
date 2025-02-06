@@ -36,6 +36,17 @@ services:
     volumes:
       - sqlvolume:/var/opt/mssql 
 
+  signsafe.seq:
+    image: datalust/seq:latest
+    container_name: signsafe.seq
+    environment:
+      - ACCEPT_EULA=Y
+    ports:
+      - 5341:5341
+      - 8082:80
+    networks:
+      - signsafenetwork
+
 networks:
   signsafenetwork:    
     driver: bridge
