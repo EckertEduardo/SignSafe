@@ -5,6 +5,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using SignSafe.Application.Auth;
+using SignSafe.Application.Behaviors;
 using SignSafe.Application.Users.Commands.Delete;
 using SignSafe.Application.Users.Commands.Insert;
 using SignSafe.Application.Users.Commands.Update;
@@ -56,6 +57,8 @@ namespace SignSafe.Ioc
         private static void AddMediatrRegistration(IServiceCollection services)
         {
             var serviceConfig = new MediatRServiceConfiguration();
+
+            serviceConfig.AddOpenBehavior(typeof(RequestLoggingPipelineBehavior<,>));
             ServiceRegistrar.AddRequiredServices(services, serviceConfig);
         }
 
