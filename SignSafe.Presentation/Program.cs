@@ -1,13 +1,28 @@
 using Microsoft.OpenApi.Models;
+using Serilog;
+using Serilog.Events;
 using SignSafe.Ioc;
+using SignSafe.Presentation.ApiFilters;
 using SignSafe.Presentation.Exceptions;
 
 var builder = WebApplication.CreateBuilder(args);
-builder.Services.AddControllers();
+
+builder.Host.UseSerilog((context, config) =>
+    config
+    .MinimumLevel.Information()
+    .MinimumLevel.Override("Microsoft.AspNetCore", LogEventLevel.Warning)
+    .Enrich.FromLogContext()
+    .Enrich.WithCorrelationId(addValueIfHeaderAbsence: true)
+    .WriteTo.Debug(outputTemplate: "[{Timestamp:HH:mm:ss} {Level:u3}] {CorrelationId} {UserId} {Event} - {Message:l}{NewLine}{Exception}")
+    .WriteTo.Console(outputTemplate: "[{Timestamp:HH:mm:ss} {Level:u3}] {UserId} {Event} - {Message:l}{NewLine}{Exception}")
+    .WriteTo.Seq(serverUrl: "http://signsafe.seq:5341")
+    );
+
 builder.Services.AddControllers(options =>
 {
     options.Filters.Add<NotFoundActionFilter>();
 });
+builder.Services.AddHttpContextAccessor();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddJwtConfiguration(builder.Configuration);
 builder.Services.AddExceptionHandlers();
@@ -41,11 +56,11 @@ builder.Services.AddSwaggerGen(c =>
 DependencyInjection.AddDependencyInjection(builder);
 
 var app = builder.Build();
+app.UseSerilogRequestLogging();
 app.UseExceptionHandler("/Error");
 
 if (!app.Environment.IsDevelopment())
 {
-    app.UseExceptionHandler("/Error");
     app.UseHsts();
 }
 
@@ -59,11 +74,7 @@ if (app.Environment.IsDevelopment())
 app.UseCors(options => options.AllowAnyHeader().AllowAnyMethod().AllowAnyOrigin());
 app.UseHttpsRedirection();
 
-app.UseMiddleware<RequestLogContextMiddleware>();
-app.UseSerilogRequestLogging();
-
 app.UseAuthentication();
 app.UseAuthorization();
-app.UseExceptionHandler();
 app.MapControllers();
 app.Run();
