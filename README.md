@@ -22,6 +22,9 @@
 ### Features
 * Authentication/Authorization with JWT Bearer Token
 * Pasword hashing with AspNet Identity
+* Logging with Serilog
+* Obserbaility with SEQ
+* Containerization with Docker 
 ---
 ### Unit tests
 Framework: Xunit
