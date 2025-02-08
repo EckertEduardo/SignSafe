@@ -122,5 +122,6 @@ This is a containerized application, so you just need to follow these simple ste
    
 3. Access the api by following this link -> [https://localhost/8081/swagger](https://localhost:8081/swagger/index.html)
    * Obs: If you have modified the output port on step 2, you will need to update the URL -> [https://localhost/[output-port]/swagger]
+4. Access the Seq logs/dashboards by following this link -> [http://localhost/8082](http://localhost/8082)
   
      That's it!
