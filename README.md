@@ -45,7 +45,16 @@ Framework: Xunit
   - Images : 
      - mcr.microsoft.com/mssql/server:2019-latest
      - mcr.microsoft.com/dotnet/sdk:8.0
+     - datalust/seq:latest
      - eduardoeckert/signsafepresentation:v1
+       
+
+### Logs
+Effective logging using [Serilog](https://serilog.net/) helps with debugging, performance monitoring, and security.
+
+### Observability
+[SEQ](https://datalust.co/seq) is an observability tool, specifically focused on log aggregation and analysis. It helps developers and operations teams collect, search, and visualize structured logs from applications, making it easier to detect and diagnose issues.
+After you 'up' the docker compose file, the Seq will be available by following this link -> [http://localhost:8082](http://localhost:8082)
 
 ### Technologies Used 
 <table> 
