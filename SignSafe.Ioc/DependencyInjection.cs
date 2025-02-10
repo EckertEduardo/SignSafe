@@ -1,5 +1,4 @@
 ﻿using MediatR;
-using MediatR.Registration;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -19,7 +18,7 @@ using SignSafe.Data.UoW;
 using SignSafe.Domain.Contracts.Api;
 using SignSafe.Domain.Dtos.Users;
 using SignSafe.Domain.RepositoryInterfaces;
-using MediatRServiceConfiguration = Microsoft.Extensions.DependencyInjection.MediatRServiceConfiguration;
+using System.Reflection;
 
 namespace SignSafe.Ioc
 {
@@ -30,11 +29,12 @@ namespace SignSafe.Ioc
             AddInfrastructure(builder);
             AddContext(builder.Services);
             AddMediatrRegistration(builder.Services);
-
-            AddRepositories(builder.Services);
-            AddCommands(builder.Services);
-            AddQueries(builder.Services);
             AddServices(builder.Services);
+            AddRepositories(builder.Services);
+
+            ///Automatically registered using AddMediatrRegistration()
+            //AddCommands(builder.Services);
+            //AddQueries(builder.Services);
         }
 
         private static void AddInfrastructure(WebApplicationBuilder builder)
@@ -56,16 +56,22 @@ namespace SignSafe.Ioc
 
         private static void AddMediatrRegistration(IServiceCollection services)
         {
-            var serviceConfig = new MediatRServiceConfiguration();
-
-            serviceConfig.AddOpenBehavior(typeof(RequestLoggingPipelineBehavior<,>));
-            ServiceRegistrar.AddRequiredServices(services, serviceConfig);
+            services.AddMediatR(config =>
+            {
+                config.RegisterServicesFromAssembly(Assembly.LoadFile("SignSafe.Application"));
+                config.AddOpenBehavior(typeof(RequestLoggingPipelineBehavior<,>));
+            });
         }
 
         private static void AddRepositories(IServiceCollection services)
         {
             services.AddScoped<IUnitOfWork, UnitOfWork>();
             services.AddScoped<IUserRepository, UserRepository>();
+        }
+        private static void AddServices(IServiceCollection services)
+        {
+            //User
+            services.AddTransient<IJwtService, JwtService>();
         }
 
         private static void AddCommands(IServiceCollection services)
@@ -83,13 +89,6 @@ namespace SignSafe.Ioc
             services.AddScoped<IRequestHandler<GetUsersByFilterQuery, PaginatedResult<List<UserDto>>>, GetUsersByFilterQueryHandler>();
             services.AddScoped<IRequestHandler<GetUserQuery, UserDto>, GetUserQueryHandler>();
             services.AddScoped<IRequestHandler<LoginUserQuery, string?>, LoginUserQueryHandler>();
-
-        }
-
-        private static void AddServices(IServiceCollection services)
-        {
-            //User
-            services.AddTransient<IJwtService, JwtService>();
         }
     }
 }

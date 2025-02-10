@@ -1,5 +1,4 @@
 ﻿using SignSafe.Data.Context;
-using SignSafe.Data.Repositories;
 using SignSafe.Domain.RepositoryInterfaces;
 
 namespace SignSafe.Data.UoW
@@ -13,12 +12,12 @@ namespace SignSafe.Data.UoW
     {
         private readonly MyContext _context;
 
-        public IUserRepository UserRepository { get; private set; }
+        public IUserRepository UserRepository { get; }
 
-        public UnitOfWork(MyContext context)
+        public UnitOfWork(MyContext context, IUserRepository userRepository)
         {
             _context = context;
-            UserRepository = new UserRepository(context);
+            UserRepository = userRepository;
         }
 
         public async Task Commit()
