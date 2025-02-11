@@ -58,7 +58,7 @@ namespace SignSafe.Ioc
         {
             services.AddMediatR(config =>
             {
-                config.RegisterServicesFromAssembly(Assembly.LoadFile("SignSafe.Application"));
+                config.RegisterServicesFromAssembly(Assembly.Load("SignSafe.Application"));
                 config.AddOpenBehavior(typeof(RequestLoggingPipelineBehavior<,>));
             });
         }
