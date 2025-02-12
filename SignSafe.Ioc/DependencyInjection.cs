@@ -1,4 +1,5 @@
-﻿using MediatR;
+﻿using FluentValidation;
+using MediatR;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -60,7 +61,10 @@ namespace SignSafe.Ioc
             {
                 config.RegisterServicesFromAssembly(Assembly.Load("SignSafe.Application"));
                 config.AddOpenBehavior(typeof(RequestLoggingPipelineBehavior<,>));
+                config.AddOpenBehavior(typeof(ValidationBehavior<,>));
+                config.AddOpenRequestPreProcessor(typeof(ValidationPreProcessor<>));
             });
+            services.AddValidatorsFromAssembly(Assembly.Load("SignSafe.Application"));
         }
 
         private static void AddRepositories(IServiceCollection services)
