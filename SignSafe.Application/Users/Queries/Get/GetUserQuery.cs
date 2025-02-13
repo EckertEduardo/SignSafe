@@ -5,6 +5,6 @@ namespace SignSafe.Application.Users.Queries.Get
 {
     public class GetUserQuery : IRequest<UserDto>
     {
-        public long UserId { get; set; }
+        public required long UserId { get; set; }
     }
 }
