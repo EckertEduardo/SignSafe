@@ -1,9 +1,11 @@
 ﻿using MediatR;
+using System.ComponentModel.DataAnnotations;
 
 namespace SignSafe.Application.Users.Commands.Delete
 {
     public class DeleteUserCommand : IRequest
     {
-        public long UserId { get; set; }
+        [Required]
+        public required long UserId { get; set; }
     }
 }
