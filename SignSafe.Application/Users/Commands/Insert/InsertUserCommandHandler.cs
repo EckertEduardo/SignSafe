@@ -22,17 +22,8 @@ namespace SignSafe.Application.Users.Commands.Insert
             user.EncryptUserPassword();
             user.UpdateRoles(roles);
 
-            try
-            {
-                await _unitOfWork.UserRepository.Insert(user);
-                await _unitOfWork.Commit();
-            }
-            catch (Exception)
-            {
-                throw;
-            }
-
-            return;
+            await _unitOfWork.UserRepository.Insert(user);
+            await _unitOfWork.Commit();
         }
     }
 }
