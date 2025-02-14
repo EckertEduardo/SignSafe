@@ -10,15 +10,15 @@ using SignSafe.Application.Users.Commands.Delete;
 using SignSafe.Application.Users.Commands.Insert;
 using SignSafe.Application.Users.Commands.Update;
 using SignSafe.Application.Users.Commands.UpdateRole;
+using SignSafe.Application.Users.Dtos;
 using SignSafe.Application.Users.Queries.Get;
 using SignSafe.Application.Users.Queries.GetAll;
 using SignSafe.Application.Users.Queries.Login;
-using SignSafe.Data.Context;
-using SignSafe.Data.Repositories;
-using SignSafe.Data.UoW;
 using SignSafe.Domain.Contracts.Api;
-using SignSafe.Domain.Dtos.Users;
 using SignSafe.Domain.RepositoryInterfaces;
+using SignSafe.Infrastructure.Context;
+using SignSafe.Infrastructure.Repositories;
+using SignSafe.Infrastructure.UoW;
 using System.Reflection;
 
 namespace SignSafe.Ioc
@@ -61,8 +61,8 @@ namespace SignSafe.Ioc
             {
                 config.RegisterServicesFromAssembly(Assembly.Load("SignSafe.Application"));
                 config.AddOpenBehavior(typeof(RequestLoggingPipelineBehavior<,>));
-                config.AddOpenBehavior(typeof(ValidationBehavior<,>));
-                config.AddOpenRequestPreProcessor(typeof(ValidationPreProcessor<>));
+                config.AddOpenBehavior(typeof(ValidationPipelineBehavior<,>));
+                config.AddOpenRequestPreProcessor(typeof(ValidationPreProcessorBehavior<>));
             });
             services.AddValidatorsFromAssembly(Assembly.Load("SignSafe.Application"));
         }
@@ -91,7 +91,7 @@ namespace SignSafe.Ioc
         {
             //User
             services.AddScoped<IRequestHandler<GetUsersByFilterQuery, PaginatedResult<List<UserDto>>>, GetUsersByFilterQueryHandler>();
-            services.AddScoped<IRequestHandler<GetUserQuery, UserDto>, GetUserQueryHandler>();
+            services.AddScoped<IRequestHandler<GetUserQuery, UserDto?>, GetUserQueryHandler>();
             services.AddScoped<IRequestHandler<LoginUserQuery, string?>, LoginUserQueryHandler>();
         }
     }

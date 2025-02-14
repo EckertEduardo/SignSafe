@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Builder;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
-using SignSafe.Data.Context;
+using SignSafe.Infrastructure.Context;
 
 namespace SignSafe.Ioc
 {

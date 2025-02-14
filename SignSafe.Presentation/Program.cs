@@ -2,8 +2,7 @@ using Microsoft.OpenApi.Models;
 using Serilog;
 using Serilog.Events;
 using SignSafe.Ioc;
-using SignSafe.Presentation.ApiFilters;
-using SignSafe.Presentation.Exceptions;
+using SignSafe.Presentation.ExceptionHandlers;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -18,13 +17,11 @@ builder.Host.UseSerilog((context, config) =>
     .WriteTo.Seq(serverUrl: "http://signsafe.seq:5341")
     );
 
-builder.Services.AddControllers(options =>
-{
-    options.Filters.Add<NotFoundActionFilter>();
-});
+builder.Services.AddControllers();
 builder.Services.AddHttpContextAccessor();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddJwtConfiguration(builder.Configuration);
+builder.Services.AddProblemDetails();
 builder.Services.AddExceptionHandlers();
 builder.Services.AddSwaggerGen(c =>
 {

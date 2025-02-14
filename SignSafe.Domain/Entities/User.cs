@@ -1,5 +1,4 @@
 ﻿using Microsoft.AspNet.Identity;
-using SignSafe.Domain.Dtos.Users;
 using SignSafe.Domain.Enums.Users;
 using SignSafe.Domain.Extensions;
 
@@ -7,33 +6,39 @@ namespace SignSafe.Domain.Entities
 {
     public class User : Base
     {
-        public User() { }
-        public User(InsertUserDto insertUserDto)
+        public string Name { get; private set; }
+        public string Email { get; private set; }
+        public string Password { get; private set; }
+        public DateTime BirthDate { get; private set; }
+        public string Roles { get; private set; } = UserRoles.Standard.GetDescription();
+        public string? PhoneNumber { get; private set; }
+        public User(string name, string email, string password, DateTime birthDate, string? phoneNumber)
         {
-            Name = insertUserDto.Name;
-            Email = insertUserDto.Email;
-            Password = insertUserDto.Password;
-            PhoneNumber = insertUserDto.PhoneNumber;
-            BirthDate = insertUserDto.BirthDate;
+            Name = name;
+            Email = email;
+            Password = password;
+            BirthDate = birthDate;
+            PhoneNumber = phoneNumber;
         }
 
-        public string Name { get; protected set; }
-        public string Email { get; protected set; }
-        public string Password { get; protected set; }
-        public string? PhoneNumber { get; protected set; }
-        public DateTime BirthDate { get; protected set; }
-        public string Roles { get; protected set; } = UserRoles.Standard.GetDescription();
-        public void UpdateUser(UserDto dto)
+
+        public void Update(string name, string email, DateTime birthDate, string? phoneNumber = null)
         {
-            Name = dto.Name;
-            Email = dto.Email;
-            PhoneNumber = dto.PhoneNumber;
-            BirthDate = dto.BirthDate;
+            Name = name;
+            Email = email;
+            BirthDate = birthDate;
+            PhoneNumber = phoneNumber;
         }
 
         public void UpdateRoles(List<UserRoles> roles)
         {
             Roles = string.Join(",", roles.Distinct());
+        }
+
+        public PasswordVerificationResult VerifyUserPassword(string providedPassword)
+        {
+            var hasher = new PasswordHasher();
+            return hasher.VerifyHashedPassword(Password, providedPassword);
         }
 
         public void EncryptUserPassword()
@@ -42,10 +47,5 @@ namespace SignSafe.Domain.Entities
             Password = hasher.HashPassword(Password);
         }
 
-        public PasswordVerificationResult VerifyUserPassword(string providedPassword)
-        {
-            var hasher = new PasswordHasher();
-            return hasher.VerifyHashedPassword(Password, providedPassword);
-        }
     }
 }

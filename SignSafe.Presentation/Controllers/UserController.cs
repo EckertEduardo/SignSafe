@@ -25,14 +25,14 @@ namespace SignSafe.Presentation.Controllers
         }
 
         [AllowAnonymous]
-        [HttpGet]
+        [HttpPost]
         [Route("login")]
-        public async Task<IActionResult> Login([FromQuery] LoginUserQuery query)
+        public async Task<IActionResult> Login([FromBody] LoginUserQuery query)
         {
             var result = await _mediator.Send(query);
             if (result == null)
             {
-                return NotFound(new { message = "Incorrect Email or Password! Please, try again." });
+                return Unauthorized(new { message = "Incorrect Email or Password! Please, try again." });
             }
             return Ok(result);
         }
@@ -51,6 +51,10 @@ namespace SignSafe.Presentation.Controllers
         public async Task<IActionResult> Get([FromQuery] GetUserQuery query)
         {
             var result = await _mediator.Send(query);
+            if (result == null)
+            {
+                return NotFound($"({nameof(query.UserId)}: {query.UserId}) was not found");
+            }
             return Ok(result);
         }
 
@@ -83,7 +87,7 @@ namespace SignSafe.Presentation.Controllers
         [Roles(RolesScheme.Admin)]
         [HttpDelete]
         [Route("delete")]
-        public async Task<IActionResult> Delete([FromBody] DeleteUserCommand command)
+        public async Task<IActionResult> Delete([FromQuery] DeleteUserCommand command)
         {
             await _mediator.Send(command);
             return NoContent();

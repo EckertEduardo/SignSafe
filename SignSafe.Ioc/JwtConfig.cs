@@ -10,7 +10,7 @@ namespace SignSafe.Ioc
     {
         public static void AddJwtConfiguration(this IServiceCollection service, IConfiguration configuration)
         {
-            var key = Encoding.ASCII.GetBytes(configuration.GetSection("JWT:Secret").Value);
+            var key = Encoding.ASCII.GetBytes(configuration.GetSection("JWT:Secret").Value ?? throw new InvalidOperationException("JWT Secret is missing from configuration."));
             service.AddAuthentication(p =>
             {
                 p.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
