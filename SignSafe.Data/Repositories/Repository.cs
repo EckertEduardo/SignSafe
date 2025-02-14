@@ -1,9 +1,9 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using SignSafe.Data.Context;
 using SignSafe.Domain.Entities;
 using SignSafe.Domain.RepositoryInterfaces;
+using SignSafe.Infrastructure.Context;
 
-namespace SignSafe.Data.Repositories
+namespace SignSafe.Infrastructure.Repositories
 {
     public class Repository<TEntity> : IRepository<TEntity> where TEntity : Base
     {
@@ -15,7 +15,7 @@ namespace SignSafe.Data.Repositories
             _dbSet = _context.Set<TEntity>();
         }
 
-        public async virtual Task<TEntity> Get(long id)
+        public async virtual Task<TEntity?> Get(long id)
         {
             return await _context.Set<TEntity>().FirstOrDefaultAsync(x => x.Id == id);
         }

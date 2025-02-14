@@ -1,8 +1,8 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using SignSafe.Data.EntityConfig;
 using SignSafe.Domain.Entities;
+using SignSafe.Infrastructure.EntityConfig;
 
-namespace SignSafe.Data.Context
+namespace SignSafe.Infrastructure.Context
 {
     public class MyContext : DbContext
     {
