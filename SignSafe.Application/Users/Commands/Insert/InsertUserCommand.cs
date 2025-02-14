@@ -1,5 +1,5 @@
 ﻿using MediatR;
-using SignSafe.Domain.Dtos.Users;
+using SignSafe.Application.Users.Dtos;
 using System.ComponentModel.DataAnnotations;
 
 namespace SignSafe.Application.Users.Commands.Insert

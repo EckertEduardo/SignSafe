@@ -6,6 +6,6 @@ namespace SignSafe.Application.Users.Commands.Delete
     public class DeleteUserCommand : IRequest
     {
         [Required]
-        public required long UserId { get; set; }
+        public long UserId { get; set; }
     }
 }

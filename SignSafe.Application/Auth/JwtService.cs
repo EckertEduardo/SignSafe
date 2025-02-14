@@ -27,7 +27,7 @@ namespace SignSafe.Application.Auth
         public string GenerateToken(User user)
         {
             var tokenHandler = new JwtSecurityTokenHandler();
-            var key = Encoding.ASCII.GetBytes(_configuration.GetSection("JWT:Secret").Value);
+            var key = Encoding.ASCII.GetBytes(_configuration.GetSection("JWT:Secret").Value!);
             var claims = new List<Claim>
             {
                 new Claim("userId", user.Id.ToString()),
@@ -43,7 +43,7 @@ namespace SignSafe.Application.Auth
                 Audience = _configuration.GetSection("JWT:Audience").Value,
                 Issuer = _configuration.GetSection("JWT:Issuer").Value,
                 Expires = DateTime.UtcNow.AddHours(Convert.ToInt32(_configuration.GetSection("JWT:ExpiresInHours").Value)),
-                SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha512Signature)
+                SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha512)
             };
 
             var token = tokenHandler.CreateToken(tokenDescriptor);

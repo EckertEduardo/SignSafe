@@ -1,6 +1,6 @@
 ﻿using MediatR;
+using SignSafe.Application.Users.Dtos;
 using SignSafe.Data.UoW;
-using SignSafe.Domain.Dtos.Users;
 
 namespace SignSafe.Application.Users.Commands.Update
 {
@@ -19,7 +19,12 @@ namespace SignSafe.Application.Users.Commands.Update
             if (user is null)
                 return null;
 
-            user.Update(request.UserDtoX);
+
+            user.Update(
+                name: request.UserDto.Name,
+                email: request.UserDto.Email,
+                birthDate: request.UserDto.BirthDate,
+                phoneNumber: request.UserDto.PhoneNumber);
 
             _unitOfWork.UserRepository.Update(user);
             await _unitOfWork.Commit();
