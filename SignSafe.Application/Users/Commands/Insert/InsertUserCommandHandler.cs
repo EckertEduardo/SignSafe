@@ -1,7 +1,6 @@
 ﻿using MediatR;
 using SignSafe.Data.UoW;
 using SignSafe.Domain.Entities;
-using SignSafe.Domain.Enums.Users;
 
 namespace SignSafe.Application.Users.Commands.Insert
 {
@@ -16,23 +15,16 @@ namespace SignSafe.Application.Users.Commands.Insert
 
         public async Task Handle(InsertUserCommand request, CancellationToken cancellationToken)
         {
-            var user = new User(request.InsertUserDto);
-            var roles = new List<UserRoles> { UserRoles.Standard };
+            var user = new User(
+                name: request.InsertUserDto.Name,
+                email: request.InsertUserDto.Email,
+                password: request.InsertUserDto.Password,
+                birthDate: request.InsertUserDto.BirthDate,
+                phoneNumber: request.InsertUserDto.PhoneNumber);
 
             user.EncryptUserPassword();
-            user.UpdateRoles(roles);
-
-            try
-            {
-                await _unitOfWork.UserRepository.Insert(user);
-                await _unitOfWork.Commit();
-            }
-            catch (Exception)
-            {
-                throw;
-            }
-
-            return;
+            await _unitOfWork.UserRepository.Insert(user);
+            await _unitOfWork.Commit();
         }
     }
 }

@@ -1,7 +1,8 @@
 ﻿using MediatR;
+using SignSafe.Application.Users.Dtos;
 using SignSafe.Data.UoW;
 using SignSafe.Domain.Contracts.Api;
-using SignSafe.Domain.Dtos.Users;
+using SignSafe.Domain.Filters;
 
 namespace SignSafe.Application.Users.Queries.GetAll
 {
@@ -25,9 +26,9 @@ namespace SignSafe.Application.Users.Queries.GetAll
             return new PaginatedResult<List<UserDto>>(data, request.Pagination.Page, request.Pagination.Size, result.TotalItems);
         }
 
-        private UsersFilterDto BuildFilter(GetUsersByFilterQuery request)
+        private UserFilters BuildFilter(GetUsersByFilterQuery request)
         {
-            return new UsersFilterDto
+            return new UserFilters
             {
                 Name = request.Name,
                 Email = request.Email,
