@@ -2,7 +2,7 @@
 using Microsoft.AspNetCore.Diagnostics;
 using System.Net;
 
-namespace SignSafe.Presentation.Exceptions.Handlers
+namespace SignSafe.Presentation.ExceptionHandlers
 {
     internal sealed class ValidationExceptionHandler : IExceptionHandler
     {
@@ -10,7 +10,7 @@ namespace SignSafe.Presentation.Exceptions.Handlers
 
         public ValidationExceptionHandler(ILogger<ValidationExceptionHandler> logger)
         {
-            _logger = logger;
+            _logger = logger ?? throw new ArgumentNullException(nameof(logger));
         }
 
         public async ValueTask<bool> TryHandleAsync(
@@ -22,7 +22,7 @@ namespace SignSafe.Presentation.Exceptions.Handlers
             {
                 httpContext.Response.StatusCode = (int)HttpStatusCode.BadRequest;
 
-                _logger.LogWarning(
+                _logger.LogInformation(
                     exception, "One or more validation errors occurred: {Message}", exception.Message);
 
                 var problemDetails = CreateProblemDetails(httpContext, exception);

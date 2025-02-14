@@ -1,12 +1,12 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using SignSafe.Data.Context;
 using SignSafe.Domain.Contracts.Api;
-using SignSafe.Domain.Dtos.Users;
 using SignSafe.Domain.Entities;
 using SignSafe.Domain.Extensions;
+using SignSafe.Domain.Filters;
 using SignSafe.Domain.RepositoryInterfaces;
+using SignSafe.Infrastructure.Context;
 
-namespace SignSafe.Data.Repositories
+namespace SignSafe.Infrastructure.Repositories
 {
     public class UserRepository : Repository<User>, IUserRepository
     {
@@ -14,7 +14,7 @@ namespace SignSafe.Data.Repositories
         {
         }
 
-        public async Task<RepositoryPaginatedResult<User>> GetByFilter(UsersFilterDto filter, Pagination pagination)
+        public async Task<RepositoryPaginatedResult<User>> GetByFilter(UserFilters filter, Pagination pagination)
         {
             var query = _context.Set<User>().AsNoTracking()
                 .WhereIf(!string.IsNullOrEmpty(filter.Name), x => x.Name == filter.Name)

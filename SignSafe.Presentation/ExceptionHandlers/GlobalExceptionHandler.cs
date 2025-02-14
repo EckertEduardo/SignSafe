@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.WebUtilities;
 using System.Diagnostics;
 
-namespace SignSafe.Presentation.Exceptions.Handlers
+namespace SignSafe.Presentation.ExceptionHandlers
 {
     internal sealed class GlobalExceptionHandler : IExceptionHandler
     {
@@ -12,8 +12,8 @@ namespace SignSafe.Presentation.Exceptions.Handlers
 
         public GlobalExceptionHandler(ILogger<GlobalExceptionHandler> logger, IHostEnvironment env)
         {
-            _logger = logger;
-            _env = env;
+            _logger = logger ?? throw new ArgumentNullException(nameof(logger));
+            _env = env ?? throw new ArgumentNullException(nameof(env));
         }
 
         public async ValueTask<bool> TryHandleAsync(
@@ -25,8 +25,6 @@ namespace SignSafe.Presentation.Exceptions.Handlers
                 exception, "Exception occurred: {Message}", exception.Message);
 
             var problemDetails = CreateProblemDetails(httpContext, exception);
-
-            httpContext.Response.StatusCode = problemDetails.Status!.Value;
 
             await httpContext.Response.WriteAsJsonAsync(
                 value: problemDetails,

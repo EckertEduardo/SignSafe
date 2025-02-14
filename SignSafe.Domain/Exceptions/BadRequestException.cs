@@ -1,4 +1,4 @@
-﻿namespace SignSafe.Presentation.Exceptions
+﻿namespace SignSafe.Domain.Exceptions
 {
     public class BadRequestException(string message) : Exception(message)
     {

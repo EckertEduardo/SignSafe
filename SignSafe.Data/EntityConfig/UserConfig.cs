@@ -4,7 +4,7 @@ using SignSafe.Domain.Entities;
 using SignSafe.Domain.Enums.Users;
 using SignSafe.Domain.Extensions;
 
-namespace SignSafe.Data.EntityConfig
+namespace SignSafe.Infrastructure.EntityConfig
 {
     public class UserConfig : IEntityTypeConfiguration<User>
     {

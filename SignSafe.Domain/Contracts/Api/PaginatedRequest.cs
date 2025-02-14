@@ -2,7 +2,7 @@
 {
     public class PaginatedRequest
     {
-        public Pagination? Pagination { get; set; } = new Pagination();
+        public Pagination Pagination { get; set; } = new Pagination();
     }
     public class Pagination
     {

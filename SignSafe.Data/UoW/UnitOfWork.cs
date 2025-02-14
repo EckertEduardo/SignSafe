@@ -1,7 +1,7 @@
-﻿using SignSafe.Data.Context;
-using SignSafe.Domain.RepositoryInterfaces;
+﻿using SignSafe.Domain.RepositoryInterfaces;
+using SignSafe.Infrastructure.Context;
 
-namespace SignSafe.Data.UoW
+namespace SignSafe.Infrastructure.UoW
 {
     public interface IUnitOfWork
     {
