@@ -1,10 +1,10 @@
 ﻿using MediatR;
-using SignSafe.Application.Users.Dtos;
-using SignSafe.Data.UoW;
+using SignSafe.Domain.Exceptions;
+using SignSafe.Infrastructure.UoW;
 
 namespace SignSafe.Application.Users.Commands.Update
 {
-    public class UpdateUserCommandHandler : IRequestHandler<UpdateUserCommand, UserDto?>
+    public class UpdateUserCommandHandler : IRequestHandler<UpdateUserCommand>
     {
         private readonly IUnitOfWork _unitOfWork;
 
@@ -13,23 +13,19 @@ namespace SignSafe.Application.Users.Commands.Update
             _unitOfWork = unitOfWork ?? throw new ArgumentNullException(nameof(unitOfWork));
         }
 
-        public async Task<UserDto?> Handle(UpdateUserCommand request, CancellationToken cancellationToken)
+        public async Task Handle(UpdateUserCommand request, CancellationToken cancellationToken)
         {
-            var user = await _unitOfWork.UserRepository.Get(request.UserId);
-            if (user is null)
-                return null;
-
+            var user = await _unitOfWork.UserRepository.Get(request.UserId)
+                ?? throw new NotFoundException(nameof(UpdateUserCommand.UserId), request.UserId);
 
             user.Update(
-                name: request.UserDto.Name,
-                email: request.UserDto.Email,
-                birthDate: request.UserDto.BirthDate,
-                phoneNumber: request.UserDto.PhoneNumber);
+                name: request.UpdateUserDto.Name,
+                email: request.UpdateUserDto.Email,
+                birthDate: request.UpdateUserDto.BirthDate,
+                phoneNumber: request.UpdateUserDto.PhoneNumber);
 
             _unitOfWork.UserRepository.Update(user);
             await _unitOfWork.Commit();
-
-            return new UserDto(user);
         }
     }
 }

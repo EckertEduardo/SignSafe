@@ -1,7 +1,7 @@
 ﻿using MediatR;
 using Microsoft.AspNet.Identity;
 using SignSafe.Application.Auth;
-using SignSafe.Data.UoW;
+using SignSafe.Infrastructure.UoW;
 
 namespace SignSafe.Application.Users.Queries.Login
 {

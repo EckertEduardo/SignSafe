@@ -1,23 +1,20 @@
 ﻿using FluentValidation;
 using MediatR;
+using MediatR.Pipeline;
 
 namespace SignSafe.Application.Behaviors
 {
-    public class ValidationBehavior<TRequest, TResponse>
-        : IPipelineBehavior<TRequest, TResponse>
-        where TRequest : IRequest<TResponse>
+    public class ValidationPreProcessorBehavior<TRequest> : IRequestPreProcessor<TRequest>
+        where TRequest : IRequest
     {
         private readonly IEnumerable<IValidator<TRequest>> _validators;
 
-        public ValidationBehavior(IEnumerable<IValidator<TRequest>> validators)
+        public ValidationPreProcessorBehavior(IEnumerable<IValidator<TRequest>> validators)
         {
             _validators = validators;
         }
 
-        public async Task<TResponse> Handle(
-            TRequest request,
-            RequestHandlerDelegate<TResponse> next,
-            CancellationToken cancellationToken)
+        public Task Process(TRequest request, CancellationToken cancellationToken)
         {
             var context = new ValidationContext<TRequest>(request);
             var failures = _validators
@@ -30,8 +27,7 @@ namespace SignSafe.Application.Behaviors
             {
                 throw new ValidationException(failures);
             }
-
-            return await next();
+            return Task.CompletedTask;
         }
     }
 
