@@ -1,6 +1,6 @@
 ﻿using MediatR;
 using SignSafe.Application.Users.Dtos;
-using SignSafe.Data.UoW;
+using SignSafe.Infrastructure.UoW;
 
 namespace SignSafe.Application.Users.Queries.Get
 {

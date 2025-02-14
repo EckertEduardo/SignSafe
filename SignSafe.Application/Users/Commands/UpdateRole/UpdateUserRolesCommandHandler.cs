@@ -1,5 +1,6 @@
 ﻿using MediatR;
-using SignSafe.Data.UoW;
+using SignSafe.Domain.Exceptions;
+using SignSafe.Infrastructure.UoW;
 
 namespace SignSafe.Application.Users.Commands.UpdateRole
 {
@@ -14,15 +15,12 @@ namespace SignSafe.Application.Users.Commands.UpdateRole
 
         public async Task Handle(UpdateUserRolesCommand request, CancellationToken cancellationToken)
         {
-            var user = await _unitOfWork.UserRepository.Get(request.UserId);
-            if (user is null)
-                return;
+            var user = await _unitOfWork.UserRepository.Get(request.UserId)
+                ?? throw new NotFoundException(nameof(UpdateUserRolesCommand.UserId), request.UserId);
 
             user.UpdateRoles(request.UserRoles);
             _unitOfWork.UserRepository.Update(user);
             await _unitOfWork.Commit();
-
-            return;
         }
     }
 }

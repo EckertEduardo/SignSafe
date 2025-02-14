@@ -4,7 +4,7 @@ using System.Text.Json.Serialization;
 
 namespace SignSafe.Application.Users.Dtos
 {
-    public record UserDto
+    public record UpdateUserDto
     {
         [Required]
         public string Name { get; init; }
@@ -13,8 +13,9 @@ namespace SignSafe.Application.Users.Dtos
         [Required]
         public DateTime BirthDate { get; init; }
         public string? PhoneNumber { get; init; }
+
         [JsonConstructor]
-        public UserDto(string name, string email, DateTime birthDate, string? phoneNumber = null)
+        public UpdateUserDto(string name, string email, DateTime birthDate, string? phoneNumber = null)
         {
             Name = name;
             Email = email;
@@ -22,7 +23,7 @@ namespace SignSafe.Application.Users.Dtos
             PhoneNumber = phoneNumber;
         }
 
-        public UserDto(User user)
+        public UpdateUserDto(User user)
         {
             Name = user.Name;
             Email = user.Email;

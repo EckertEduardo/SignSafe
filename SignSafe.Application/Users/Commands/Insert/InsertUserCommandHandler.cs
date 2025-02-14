@@ -1,6 +1,6 @@
 ﻿using MediatR;
-using SignSafe.Data.UoW;
 using SignSafe.Domain.Entities;
+using SignSafe.Infrastructure.UoW;
 
 namespace SignSafe.Application.Users.Commands.Insert
 {

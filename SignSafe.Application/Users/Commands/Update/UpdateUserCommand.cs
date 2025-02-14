@@ -4,12 +4,12 @@ using System.ComponentModel.DataAnnotations;
 
 namespace SignSafe.Application.Users.Commands.Update
 {
-    public class UpdateUserCommand : IRequest<UserDto?>
+    public class UpdateUserCommand : IRequest
     {
         [Required]
         public long UserId { get; set; }
 
         [Required]
-        public required UserDto UserDto { get; set; }
+        public required UpdateUserDto UpdateUserDto { get; set; }
     }
 }

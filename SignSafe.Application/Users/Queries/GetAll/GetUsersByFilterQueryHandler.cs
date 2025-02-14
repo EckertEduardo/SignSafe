@@ -1,8 +1,8 @@
 ﻿using MediatR;
 using SignSafe.Application.Users.Dtos;
-using SignSafe.Data.UoW;
 using SignSafe.Domain.Contracts.Api;
 using SignSafe.Domain.Filters;
+using SignSafe.Infrastructure.UoW;
 
 namespace SignSafe.Application.Users.Queries.GetAll
 {

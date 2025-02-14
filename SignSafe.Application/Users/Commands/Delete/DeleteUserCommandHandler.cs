@@ -1,5 +1,5 @@
 ﻿using MediatR;
-using SignSafe.Data.UoW;
+using SignSafe.Infrastructure.UoW;
 
 namespace SignSafe.Application.Users.Commands.Delete
 {
@@ -16,8 +16,6 @@ namespace SignSafe.Application.Users.Commands.Delete
         {
             await _unitOfWork.UserRepository.Delete(request.UserId);
             await _unitOfWork.Commit();
-
-            return;
         }
     }
 }
