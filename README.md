@@ -96,6 +96,10 @@ After you 'up' the docker compose file, the Seq will be available by following t
      ```
      dotnet dev-certs https -ep "C:\Users\<your-user-name>\AppData\Roaming\ASP.NET\Https\signsafe.pfx"  -p signSafePassword
      ```
+   (MacOS)
+     ```
+     dotnet dev-certs https -ep \Users\<your-user-name>\.aspnet\https\aspnetapp.pfx -p 
+     ```
      * In the preceding commands, replace `<your-user-name>` with the user local host machine.
      
      * The path maybe will be different depending on the OS. For more info, click [here](https://learn.microsoft.com/en-us/aspnet/core/security/docker-compose-https?view=aspnetcore-9.0)
