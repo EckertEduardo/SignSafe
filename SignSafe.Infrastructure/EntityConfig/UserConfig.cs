@@ -14,6 +14,7 @@ namespace SignSafe.Infrastructure.EntityConfig
             builder.Property(x => x.Email).HasMaxLength(100).IsRequired();
             builder.Property(x => x.Password).IsRequired();
             builder.Property(x => x.Roles).IsRequired().HasDefaultValue(UserRoles.Standard.GetDescription());
+            builder.Property(x => x.VerifiedAccount).IsRequired().HasDefaultValue(false);
         }
     }
 }
