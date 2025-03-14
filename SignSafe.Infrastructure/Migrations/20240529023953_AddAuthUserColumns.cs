@@ -2,7 +2,7 @@
 
 #nullable disable
 
-namespace SignSafe.Data.Migrations
+namespace SignSafe.Infrastructure.Migrations
 {
     /// <inheritdoc />
     public partial class AddAuthUserColumns : Migration

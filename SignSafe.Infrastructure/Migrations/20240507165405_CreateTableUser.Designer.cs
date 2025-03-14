@@ -9,7 +9,7 @@ using SignSafe.Infrastructure.Context;
 
 #nullable disable
 
-namespace SignSafe.Data.Migrations
+namespace SignSafe.Infrastructure.Migrations
 {
     [DbContext(typeof(MyContext))]
     [Migration("20240507165405_CreateTableUser")]
