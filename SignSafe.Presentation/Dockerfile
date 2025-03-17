@@ -12,7 +12,7 @@ WORKDIR /src
 COPY ["SignSafe.Presentation/SignSafe.Presentation.csproj", "SignSafe.Presentation/"]
 COPY ["SignSafe.Ioc/SignSafe.Ioc.csproj", "SignSafe.Ioc/"]
 COPY ["SignSafe.Application/SignSafe.Application.csproj", "SignSafe.Application/"]
-COPY ["SignSafe.Data/SignSafe.Data.csproj", "SignSafe.Data/"]
+COPY ["SignSafe.Infrastructure/SignSafe.Infrastructure.csproj", "SignSafe.Infrastructure/"]
 COPY ["SignSafe.Domain/SignSafe.Domain.csproj", "SignSafe.Domain/"]
 RUN dotnet restore "./SignSafe.Presentation/SignSafe.Presentation.csproj"
 COPY . .
