@@ -25,23 +25,9 @@ namespace SignSafe.Application.Services
         public async Task SendEmailAsync(List<MailboxAddress> receiptEmails, BodyBuilder bodyBuilder, string subject)
         {
             _logger.LogInformation("{provider} - Initiating sending email", PROVIDER);
-            var smtpSettings = _configuration.GetSection("EmailClient");
+            var smtpSettings = _configuration.GetSection("SmtpSettings");
 
-            if (string.IsNullOrEmpty(smtpSettings?["Email"]))
-            {
-                var errorMessage = "The section 'EmailClient' or 'EmailClient:Email' was not found";
-
-                _logger.LogError("{provider} - Error sending email - {errorMessage}", PROVIDER, errorMessage);
-                throw new ArgumentNullException("EmailClient:Email", errorMessage);
-            }
-
-            if (string.IsNullOrEmpty(smtpSettings?["Password"]))
-            {
-                var errorMessage = "The section 'EmailClient' or 'EmailClient:Password' was not found";
-
-                _logger.LogError("{provider} - Error sending email - {errorMessage}", PROVIDER, errorMessage);
-                throw new ArgumentNullException("EmailClient:Password", errorMessage);
-            }
+            ValidateSmtpSettings(smtpSettings);
 
             string smtpServer = smtpSettings["SmtpServer"] ?? SMTP_SERVER_DEFAULT;
             int smtpPort = int.TryParse(smtpSettings["SmtpPort"], out int smtpPortValue) ? smtpPortValue : SMTP_PORT_DEFAULT;
@@ -55,22 +41,46 @@ namespace SignSafe.Application.Services
 
             message.Body = bodyBuilder.ToMessageBody();
 
-            using (var client = new SmtpClient())
-            {
-                try
-                {
-                    await client.ConnectAsync(smtpServer, smtpPort, MailKit.Security.SecureSocketOptions.StartTlsWhenAvailable);
-                    await client.AuthenticateAsync(fromEmail, fromPassword);
-                    await client.SendAsync(message);
-                    await client.DisconnectAsync(true);
+            await Send(smtpServer, smtpPort, fromEmail, fromPassword, message);
 
-                    _logger.LogInformation("{provider} - Email sent successfuly", PROVIDER);
-                    _logger.LogInformation("{provider} - Finishing sending email", PROVIDER);
-                }
-                catch (Exception ex)
+            void ValidateSmtpSettings(IConfigurationSection smtpSettings)
+            {
+                if (string.IsNullOrEmpty(smtpSettings?["Email"]))
                 {
-                    _logger.LogError("{provider} - Error sending email - {errorMessage}", PROVIDER, ex.Message);
-                    throw;
+                    var errorMessage = "The section 'SmtpSettings' or 'SmtpSettings:Email' was not found";
+
+                    _logger.LogError("{provider} - Error sending email - {errorMessage}", PROVIDER, errorMessage);
+                    throw new ArgumentNullException("SmtpSettings:Email", errorMessage);
+                }
+
+                if (string.IsNullOrEmpty(smtpSettings?["Password"]))
+                {
+                    var errorMessage = "The section 'SmtpSettings' or 'SmtpSettings:Password' was not found";
+
+                    _logger.LogError("{provider} - Error sending email - {errorMessage}", PROVIDER, errorMessage);
+                    throw new ArgumentNullException("SmtpSettings:Password", errorMessage);
+                }
+            }
+
+            async Task Send(string smtpServer, int smtpPort, string fromEmail, string fromPassword, MimeMessage message)
+            {
+                using (var client = new SmtpClient())
+                {
+                    try
+                    {
+                        await client.ConnectAsync(smtpServer, smtpPort, MailKit.Security.SecureSocketOptions.StartTlsWhenAvailable);
+                        await client.AuthenticateAsync(fromEmail, fromPassword);
+                        await client.SendAsync(message);
+                        await client.DisconnectAsync(true);
+
+                        _logger.LogInformation("{provider} - Email sent successfuly", PROVIDER);
+                        _logger.LogInformation("{provider} - Finishing sending email", PROVIDER);
+                    }
+                    catch (Exception ex)
+                    {
+                        _logger.LogError("{provider} - Error sending email - {errorMessage}", PROVIDER, ex.Message);
+                        throw;
+                    }
                 }
             }
         }
