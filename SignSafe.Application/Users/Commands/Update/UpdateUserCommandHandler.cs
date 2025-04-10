@@ -16,13 +16,13 @@ namespace SignSafe.Application.Users.Commands.Update
         public async Task Handle(UpdateUserCommand request, CancellationToken cancellationToken)
         {
             var user = await _unitOfWork.UserRepository.Get(request.UserId)
-                ?? throw new NotFoundException(nameof(UpdateUserCommand.UserId), request.UserId);
+                ?? throw new NotFoundException("UserId", request.UserId);
 
             user.Update(
-                name: request.UpdateUserDto.Name,
-                email: request.UpdateUserDto.Email,
-                birthDate: request.UpdateUserDto.BirthDate,
-                phoneNumber: request.UpdateUserDto.PhoneNumber);
+                name: request.Name,
+                email: request.Email,
+                birthDate: request.BirthDate,
+                phoneNumber: request.PhoneNumber);
 
             _unitOfWork.UserRepository.Update(user);
             await _unitOfWork.Commit();

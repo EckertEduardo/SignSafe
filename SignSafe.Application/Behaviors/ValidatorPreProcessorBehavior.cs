@@ -4,14 +4,14 @@ using MediatR.Pipeline;
 
 namespace SignSafe.Application.Behaviors
 {
-    public class ValidationPreProcessorBehavior<TRequest> : IRequestPreProcessor<TRequest>
+    public class ValidatorPreProcessorBehavior<TRequest> : IRequestPreProcessor<TRequest>
         where TRequest : IRequest
     {
         private readonly IEnumerable<IValidator<TRequest>> _validators;
 
-        public ValidationPreProcessorBehavior(IEnumerable<IValidator<TRequest>> validators)
+        public ValidatorPreProcessorBehavior(IEnumerable<IValidator<TRequest>> validators)
         {
-            _validators = validators;
+            _validators = validators ?? throw new ArgumentNullException(nameof(validators));
         }
 
         public Task Process(TRequest request, CancellationToken cancellationToken)

@@ -6,6 +6,8 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using SignSafe.Application.Auth;
 using SignSafe.Application.Behaviors;
+using SignSafe.Application.Services;
+using SignSafe.Application.ServicesInterfaces;
 using SignSafe.Application.Users.Commands.Delete;
 using SignSafe.Application.Users.Commands.Insert;
 using SignSafe.Application.Users.Commands.Update;
@@ -61,8 +63,8 @@ namespace SignSafe.Ioc
             {
                 config.RegisterServicesFromAssembly(Assembly.Load("SignSafe.Application"));
                 config.AddOpenBehavior(typeof(RequestLoggingPipelineBehavior<,>));
-                config.AddOpenBehavior(typeof(ValidationPipelineBehavior<,>));
-                config.AddOpenRequestPreProcessor(typeof(ValidationPreProcessorBehavior<>));
+                config.AddOpenBehavior(typeof(ValidatorPipelineBehavior<,>));
+                config.AddOpenRequestPreProcessor(typeof(ValidatorPreProcessorBehavior<>));
             });
             services.AddValidatorsFromAssembly(Assembly.Load("SignSafe.Application"));
         }
@@ -76,14 +78,16 @@ namespace SignSafe.Ioc
         {
             //User
             services.AddTransient<IJwtService, JwtService>();
+            services.AddTransient<IOtpService, OtpService>();
+            services.AddTransient<IEmailClientService, MailKitEmailClientService>();
         }
 
         private static void AddCommands(IServiceCollection services)
         {
             //User
-            services.AddScoped<IRequestHandler<InsertUserCommand>, InsertUserCommandHandler>();
+            services.AddScoped<IRequestHandler<InsertUserCommand, InsertUserCommandResponse>, InsertUserCommandHandler>();
             services.AddScoped<IRequestHandler<UpdateUserCommand>, UpdateUserCommandHandler>();
-            services.AddScoped<IRequestHandler<UpdateUserRolesCommand>, UpdateUserRolesCommandHandler>();
+            services.AddScoped<IRequestHandler<UpdateRolesCommand>, UpdateRolesCommandHandler>();
             services.AddScoped<IRequestHandler<DeleteUserCommand>, DeleteUserCommandHandler>();
         }
 
@@ -92,7 +96,7 @@ namespace SignSafe.Ioc
             //User
             services.AddScoped<IRequestHandler<GetUsersByFilterQuery, PaginatedResult<List<UserDto>>>, GetUsersByFilterQueryHandler>();
             services.AddScoped<IRequestHandler<GetUserQuery, UserDto?>, GetUserQueryHandler>();
-            services.AddScoped<IRequestHandler<LoginUserQuery, string?>, LoginUserQueryHandler>();
+            services.AddScoped<IRequestHandler<LoginQuery, LoginQueryResponse?>, LoginQueryHandler>();
         }
     }
 }

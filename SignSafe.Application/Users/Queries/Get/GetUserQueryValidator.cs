@@ -1,4 +1,5 @@
 ﻿using FluentValidation;
+using SignSafe.Domain.Entities.Validations;
 
 namespace SignSafe.Application.Users.Queries.Get
 {
@@ -6,9 +7,8 @@ namespace SignSafe.Application.Users.Queries.Get
     {
         public GetUserQueryValidator()
         {
-            RuleFor(x => x.UserId)
-                .NotNull().WithMessage($"Field '{nameof(GetUserQuery.UserId)}' is required")
-                .GreaterThan(0).WithMessage($"Field '{nameof(GetUserQuery.UserId)}' must be greater than 0");
+            GenericValidationRules
+                .Id(RuleFor(x => x.UserId));
         }
     }
 }

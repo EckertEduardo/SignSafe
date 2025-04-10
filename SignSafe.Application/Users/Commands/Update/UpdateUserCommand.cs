@@ -1,5 +1,4 @@
 ﻿using MediatR;
-using SignSafe.Application.Users.Dtos;
 using System.ComponentModel.DataAnnotations;
 
 namespace SignSafe.Application.Users.Commands.Update
@@ -10,6 +9,11 @@ namespace SignSafe.Application.Users.Commands.Update
         public long UserId { get; set; }
 
         [Required]
-        public required UpdateUserDto UpdateUserDto { get; set; }
+        public string Name { get; init; }
+        [Required]
+        public string Email { get; init; }
+        [Required]
+        public DateTime BirthDate { get; init; }
+        public string? PhoneNumber { get; init; }
     }
 }

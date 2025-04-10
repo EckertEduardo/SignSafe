@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace SignSafe.Application.Users.Queries.Login
 {
-    public class LoginUserQuery : IRequest<string>
+    public class LoginQuery : IRequest<LoginQueryResponse>
     {
         [Required]
         public required string Email { get; set; }

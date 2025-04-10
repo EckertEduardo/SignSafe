@@ -1,4 +1,5 @@
-﻿using Microsoft.Extensions.Configuration;
+﻿using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 using SignSafe.Domain.Entities;
 using System.IdentityModel.Tokens.Jwt;
@@ -10,10 +11,70 @@ namespace SignSafe.Application.Auth
     public class JwtService : IJwtService
     {
         private readonly IConfiguration _configuration;
+        private readonly IHttpContextAccessor _httpContextAccessor;
 
-        public JwtService(IConfiguration configuration)
+        public JwtService(IConfiguration configuration, IHttpContextAccessor httpContextAccessor)
         {
             _configuration = configuration ?? throw new ArgumentNullException(nameof(configuration));
+            _httpContextAccessor = httpContextAccessor ?? throw new ArgumentNullException(nameof(httpContextAccessor));
+        }
+
+        public UserTokenInfo? GetUserTokenInfo()
+        {
+            var token = _httpContextAccessor.HttpContext?.Request?.Headers["Authorization"]
+                            ?? _httpContextAccessor.HttpContext?.Request?.Cookies["JwtToken"];
+
+            if (string.IsNullOrEmpty(token))
+                return null;
+
+            var securityToken = ConvertToken(token!);
+
+            if (!long.TryParse(securityToken.Claims.FirstOrDefault(x => x.Type == "userId")?.Value, out long userId))
+                throw new Exception();
+
+            var email = securityToken.Claims
+                .FirstOrDefault(x => x.Type.Equals(nameof(ClaimTypes.Email), StringComparison.OrdinalIgnoreCase))
+                ?.Value;
+
+            if (string.IsNullOrWhiteSpace(email))
+                throw new Exception();
+
+            var roles = securityToken.Claims
+                .Where(x => x.Type.Equals(nameof(ClaimTypes.Role), StringComparison.OrdinalIgnoreCase))
+                .Select(x => x.Value)
+                .ToArray();
+
+            var userTokenInfo = new UserTokenInfo(userId, email, roles);
+            return userTokenInfo;
+        }
+
+        public UserTokenInfo TryGetUserTokenInfo()
+        {
+            var token = _httpContextAccessor.HttpContext?.Request?.Headers["Authorization"]
+                            ?? _httpContextAccessor.HttpContext?.Request?.Cookies["JwtToken"];
+
+            if (string.IsNullOrEmpty(token))
+                throw new Exception();
+
+            var securityToken = ConvertToken(token!);
+
+            if (!long.TryParse(securityToken.Claims.FirstOrDefault(x => x.Type == "userId")?.Value, out long userId))
+                throw new Exception();
+
+            var email = securityToken.Claims
+                .FirstOrDefault(x => x.Type.Equals(nameof(ClaimTypes.Email), StringComparison.OrdinalIgnoreCase))
+                ?.Value;
+
+            if (string.IsNullOrWhiteSpace(email))
+                throw new Exception();
+
+            var roles = securityToken.Claims
+                .Where(x => x.Type.Equals(nameof(ClaimTypes.Role), StringComparison.OrdinalIgnoreCase))
+                .Select(x => x.Value)
+                .ToArray();
+
+            var userTokenInfo = new UserTokenInfo(userId, email, roles);
+            return userTokenInfo;
         }
 
         public JwtSecurityToken ConvertToken(string token)
@@ -24,6 +85,7 @@ namespace SignSafe.Application.Auth
             var securityToken = handler.ReadJwtToken(token);
             return securityToken;
         }
+
         public string GenerateToken(User user)
         {
             var tokenHandler = new JwtSecurityTokenHandler();
@@ -47,7 +109,7 @@ namespace SignSafe.Application.Auth
             };
 
             var token = tokenHandler.CreateToken(tokenDescriptor);
-            return string.Concat("Bearer ", tokenHandler.WriteToken(token));
+            return tokenHandler.WriteToken(token);
         }
     }
 }

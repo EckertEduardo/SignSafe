@@ -1,17 +1,18 @@
 ﻿using FluentValidation;
 using MediatR;
+using Microsoft.Extensions.Logging;
 
 namespace SignSafe.Application.Behaviors
 {
-    public class ValidationPipelineBehavior<TRequest, TResponse>
+    public class ValidatorPipelineBehavior<TRequest, TResponse>
         : IPipelineBehavior<TRequest, TResponse>
         where TRequest : IRequest<TResponse>
     {
         private readonly IEnumerable<IValidator<TRequest>> _validators;
 
-        public ValidationPipelineBehavior(IEnumerable<IValidator<TRequest>> validators)
+        public ValidatorPipelineBehavior(IEnumerable<IValidator<TRequest>> validators)
         {
-            _validators = validators;
+            _validators = validators ?? throw new ArgumentNullException(nameof(validators));
         }
 
         public async Task<TResponse> Handle(

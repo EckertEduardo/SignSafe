@@ -2,7 +2,9 @@ using Microsoft.OpenApi.Models;
 using Serilog;
 using Serilog.Events;
 using SignSafe.Ioc;
+using SignSafe.Presentation.ActionFilters.GlobalApi;
 using SignSafe.Presentation.ExceptionHandlers;
+using SignSafe.Presentation.Middlewares;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -17,7 +19,10 @@ builder.Host.UseSerilog((context, config) =>
     .WriteTo.Seq(serverUrl: "http://signsafe.seq:5341")
     );
 
-builder.Services.AddControllers();
+builder.Services.AddControllers(options =>
+{
+    options.Filters.Add<GlobalApiReturnFilter>();
+});
 builder.Services.AddHttpContextAccessor();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddJwtConfiguration(builder.Configuration);
@@ -31,6 +36,8 @@ builder.Services.AddSwaggerGen(c =>
         Description = "Insert the token",
         Name = "Authorization",
         Type = SecuritySchemeType.ApiKey,
+        Scheme = "Bearer",
+        BearerFormat = "JWT"
     });
     c.AddSecurityRequirement(new OpenApiSecurityRequirement
     {
@@ -55,6 +62,7 @@ DependencyInjection.AddDependencyInjection(builder);
 var app = builder.Build();
 app.UseSerilogRequestLogging();
 app.UseExceptionHandler("/Error");
+app.UseMiddleware<JwtCookieMiddleware>();
 
 if (!app.Environment.IsDevelopment())
 {

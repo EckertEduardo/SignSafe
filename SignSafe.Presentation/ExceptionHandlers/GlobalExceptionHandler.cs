@@ -49,19 +49,17 @@ namespace SignSafe.Presentation.ExceptionHandlers
             {
                 Title = reasonPhrase,
                 Status = statusCode,
-                Type = exception.GetType().Name
+                Type = exception.GetType().Name,
             };
 
-            if (_env.IsProduction())
+            if ((_env.IsDevelopment() || _env.IsStaging()) && false)
             {
-                return problemDetails;
+                problemDetails.Detail = exception.Message;
+                problemDetails.Instance = $"{httpContext.Request.Method} {httpContext.Request.Path}";
+                problemDetails.Extensions["traceId"] = Activity.Current?.Id;
+                problemDetails.Extensions["requestId"] = httpContext.TraceIdentifier;
+                problemDetails.Extensions["data"] = exception.Data;
             }
-
-            problemDetails.Detail = exception.ToString();
-            problemDetails.Instance = $"{httpContext.Request.Method} {httpContext.Request.Path}";
-            problemDetails.Extensions["traceId"] = Activity.Current?.Id;
-            problemDetails.Extensions["requestId"] = httpContext.TraceIdentifier;
-            problemDetails.Extensions["data"] = exception.Data;
 
             return problemDetails;
         }

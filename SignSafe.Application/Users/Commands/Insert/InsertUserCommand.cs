@@ -1,12 +1,18 @@
 ﻿using MediatR;
-using SignSafe.Application.Users.Dtos;
 using System.ComponentModel.DataAnnotations;
 
 namespace SignSafe.Application.Users.Commands.Insert
 {
-    public class InsertUserCommand : IRequest
+    public class InsertUserCommand : IRequest<InsertUserCommandResponse>
     {
         [Required]
-        public required InsertUserDto InsertUserDto { get; set; }
+        public string Name { get; init; }
+        [Required]
+        public string Email { get; init; }
+        [Required]
+        public string Password { get; init; }
+
+        public DateTime BirthDate { get; init; } = new DateTime();
+        public string? PhoneNumber { get; init; }
     }
 }

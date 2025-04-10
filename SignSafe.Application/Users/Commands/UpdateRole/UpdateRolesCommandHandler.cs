@@ -4,19 +4,19 @@ using SignSafe.Infrastructure.UoW;
 
 namespace SignSafe.Application.Users.Commands.UpdateRole
 {
-    public class UpdateUserRolesCommandHandler : IRequestHandler<UpdateUserRolesCommand>
+    public class UpdateRolesCommandHandler : IRequestHandler<UpdateRolesCommand>
     {
         private readonly IUnitOfWork _unitOfWork;
 
-        public UpdateUserRolesCommandHandler(IUnitOfWork unitOfWork)
+        public UpdateRolesCommandHandler(IUnitOfWork unitOfWork)
         {
             _unitOfWork = unitOfWork ?? throw new ArgumentNullException(nameof(unitOfWork));
         }
 
-        public async Task Handle(UpdateUserRolesCommand request, CancellationToken cancellationToken)
+        public async Task Handle(UpdateRolesCommand request, CancellationToken cancellationToken)
         {
             var user = await _unitOfWork.UserRepository.Get(request.UserId)
-                ?? throw new NotFoundException(nameof(UpdateUserRolesCommand.UserId), request.UserId);
+                ?? throw new NotFoundException("UserId", request.UserId);
 
             user.UpdateRoles(request.UserRoles);
             _unitOfWork.UserRepository.Update(user);

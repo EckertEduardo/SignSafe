@@ -7,10 +7,12 @@ namespace SignSafe.Presentation.ExceptionHandlers
     internal sealed class ValidationExceptionHandler : IExceptionHandler
     {
         private readonly ILogger<ValidationExceptionHandler> _logger;
+        private readonly IHostEnvironment _env;
 
-        public ValidationExceptionHandler(ILogger<ValidationExceptionHandler> logger)
+        public ValidationExceptionHandler(ILogger<ValidationExceptionHandler> logger, IHostEnvironment env)
         {
             _logger = logger ?? throw new ArgumentNullException(nameof(logger));
+            _env = env ?? throw new ArgumentNullException(nameof(env));
         }
 
         public async ValueTask<bool> TryHandleAsync(
@@ -55,6 +57,11 @@ namespace SignSafe.Presentation.ExceptionHandlers
                 Status = httpContext.Response.StatusCode,
                 Type = exception.GetType().Name,
             };
+
+            if ((_env.IsDevelopment() || _env.IsStaging()) && false)
+            {
+                problemDetails.Detail = exception.Message;
+            }
 
             return problemDetails;
         }

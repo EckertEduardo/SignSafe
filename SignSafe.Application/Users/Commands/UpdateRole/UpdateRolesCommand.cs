@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace SignSafe.Application.Users.Commands.UpdateRole
 {
-    public class UpdateUserRolesCommand : IRequest
+    public class UpdateRolesCommand : IRequest
     {
         [Required]
         public long UserId { get; init; }
