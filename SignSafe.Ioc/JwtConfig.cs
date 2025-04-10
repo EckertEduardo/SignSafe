@@ -26,12 +26,12 @@ namespace SignSafe.Ioc
                     p.TokenValidationParameters = new TokenValidationParameters
                     {
                         ValidateIssuerSigningKey = true,
-                        IssuerSigningKey = new SymmetricSecurityKey(key),
-                        ValidateIssuer = false,
-                        ValidIssuer = configuration.GetSection("JWT:Issuer").Value,
-                        ValidateAudience = false,
-                        ValidAudience = configuration.GetSection("JWT:Audience").Value,
                         ValidateLifetime = true,
+                        ValidateIssuer = false,
+                        ValidateAudience = false,
+                        IssuerSigningKey = new SymmetricSecurityKey(key),
+                        //ValidIssuer = configuration.GetSection("JWT:Issuer").Value,
+                        //ValidAudience = configuration.GetSection("JWT:Audience").Value,
                     };
 
                     p.Events = new JwtBearerEvents
