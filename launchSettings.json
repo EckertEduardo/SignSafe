@@ -3,8 +3,13 @@
     "Docker Compose": {
       "commandName": "DockerCompose",
       "commandVersion": "1.0",
+      "composeLaunchAction": "LaunchBrowser",
+      "composeLaunchServiceName": "signsafe.presentation",
+      "composeLaunchUrl": "{Scheme}://localhost:{ServicePort}/swagger",
       "serviceActions": {
-        "signsafe.presentation": "StartDebugging"
+        "signsafe.presentation": "StartDebugging",
+        "signsafe.database": "StartWithoutDebugging",
+        "signsafe.seq": "StartWithoutDebugging"
       }
     }
   }

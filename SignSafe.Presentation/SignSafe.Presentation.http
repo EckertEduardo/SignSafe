@@ -1,6 +1,0 @@
-@SignSafe.Presentation_HostAddress = http://localhost:5204
-
-GET {{SignSafe.Presentation_HostAddress}}/weatherforecast/
-Accept: application/json
-
-###
