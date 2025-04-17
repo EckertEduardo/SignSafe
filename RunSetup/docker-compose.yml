@@ -1,0 +1,70 @@
+version: '3.8'
+
+services:
+  signsafe.backend:
+    image: eduardoeckert/sign-safe-backend
+    container_name: signsafe.backend
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_HTTP_PORTS=8080
+      - ASPNETCORE_HTTPS_PORTS=8081
+      - DB_HOST=signsafe.database
+      - DB_NAME=SignSafe
+      - DB_SA_PASSWORD=${DB_SA_PASSWORD}
+      - ASPNETCORE_Kestrel__Certificates__Default__Password=${CERT_PASSWORD}
+      - ASPNETCORE_Kestrel__Certificates__Default__Path=/signsafe.pfx
+    ports:
+      - 8080:8080
+      - 8081:8081
+    volumes:
+      - ./Certificates/signsafe.pfx:/signsafe.pfx:ro
+    networks:
+      - signsafenetwork
+    depends_on:
+      - signsafe.database
+
+  signsafe.frontend:
+    image: eduardoeckert/sign-safe-frontend
+    container_name: signsafe.frontend
+    environment:
+      - VITE_BACKEND_URL=https://signsafe.backend:8081/api
+    ports:
+      - 9090:5173
+    command: ["npm", "run", "dev"]
+    depends_on:
+      - signsafe.backend
+    networks:
+      - signsafenetwork
+
+  signsafe.database:
+    image: mcr.microsoft.com/mssql/server:2019-latest
+    container_name: signsafe.database
+    environment:
+      - ACCEPT_EULA=Y
+      - MSSQL_SA_PASSWORD=Password2019!
+      - MSSQL_PID=Developer
+    ports:
+      - 1433:1433
+    volumes:
+      - sqlvolume:/var/opt/mssql
+    networks:
+      - signsafenetwork
+    restart: unless-stopped
+
+  signsafe.seq:
+    image: datalust/seq:latest
+    container_name: signsafe.seq
+    environment:
+      - ACCEPT_EULA=Y
+    ports:
+      - 5341:5341
+      - 8082:80
+    networks:
+      - signsafenetwork
+
+networks:
+  signsafenetwork:
+    driver: bridge
+
+volumes:
+  sqlvolume:
