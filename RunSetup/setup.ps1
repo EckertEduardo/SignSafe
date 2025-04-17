@@ -1,6 +1,6 @@
 # setup.ps1
 
-$certDir = "Certificates"
+$certDir = "certificates"
 $certPath = "$certDir\signsafe.pfx"
 $certPassword = "signSafePassword"
 

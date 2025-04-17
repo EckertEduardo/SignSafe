@@ -19,7 +19,7 @@ services:
     volumes:
       - ./Certificates/signsafe.pfx:/signsafe.pfx:ro
     networks:
-      - signsafenetwork
+      - signsafe_network
     depends_on:
       - signsafe.database
 
@@ -34,7 +34,7 @@ services:
     depends_on:
       - signsafe.backend
     networks:
-      - signsafenetwork
+      - signsafe_network
 
   signsafe.database:
     image: mcr.microsoft.com/mssql/server:2019-latest
@@ -46,9 +46,9 @@ services:
     ports:
       - 1433:1433
     volumes:
-      - sqlvolume:/var/opt/mssql
+      - signsafe_sqlvolume:/var/opt/mssql
     networks:
-      - signsafenetwork
+      - signsafe_network
     restart: unless-stopped
 
   signsafe.seq:
@@ -60,11 +60,12 @@ services:
       - 5341:5341
       - 8082:80
     networks:
-      - signsafenetwork
+      - signsafe_network
+    restart: unless-stopped
 
 networks:
-  signsafenetwork:
+  signsafe_network:
     driver: bridge
 
 volumes:
-  sqlvolume:
+  signsafe_sqlvolume:
