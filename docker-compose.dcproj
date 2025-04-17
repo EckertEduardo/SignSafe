@@ -7,7 +7,7 @@
     <ProjectGuid>b36c0308-657d-4142-acbc-b936115e775b</ProjectGuid>
     <DockerLaunchAction>LaunchBrowser</DockerLaunchAction>
     <DockerServiceUrl>{Scheme}://localhost:{ServicePort}/swagger</DockerServiceUrl>
-    <DockerServiceName>signsafe.presentation</DockerServiceName>
+    <DockerServiceName>signsafe.backend</DockerServiceName>
   </PropertyGroup>
   <ItemGroup>
     <None Include="docker-compose.yml" />

@@ -30,6 +30,11 @@ builder.Services.AddProblemDetails();
 builder.Services.AddExceptionHandlers();
 builder.Services.AddSwaggerGen(c =>
 {
+    c.SwaggerDoc("v1", new OpenApiInfo
+    {
+        Title = "SignSafe API",
+        Description = "API for SignSafe. [Click here to open the frontend](http://localhost:9090)"
+    });
     c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
     {
         In = ParameterLocation.Header,

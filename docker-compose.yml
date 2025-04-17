@@ -1,7 +1,7 @@
 services:
-  signsafe.presentation:
-    image: eduardoeckert/sign-safe-api
-    container_name: signsafe.api
+  signsafe.backend:
+    image: eduardoeckert/sign-safe-backend
+    container_name: signsafe.backend
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
       - ASPNETCORE_HTTP_PORTS=8080
@@ -21,6 +21,20 @@ services:
       - signsafenetwork
     depends_on:
       - signsafe.database
+
+  signsafe.frontend:
+    image: eduardoeckert/sign-safe-frontend
+    container_name: signsafe.frontend
+    environment:
+      - VITE_BACKEND_URL=https://localhost:8081/api
+    build:
+      context: C:/Users/eduar/source/repos/SignSafe-Front/signsafe
+      dockerfile: C:/Users/eduar/source/repos/SignSafe-Front/signsafe/Dockerfile
+    ports:
+      - 9090:5173
+    command: ["npm", "run", "dev"]
+    depends_on:
+      - signsafe.backend
 
   signsafe.database:
     image: mcr.microsoft.com/mssql/server:2019-latest
