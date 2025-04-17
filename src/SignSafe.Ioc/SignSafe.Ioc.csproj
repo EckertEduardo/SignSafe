@@ -17,7 +17,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\SignSafe.Application\SignSafe.Application.csproj" />
     <ProjectReference Include="..\SignSafe.Infrastructure\SignSafe.Infrastructure.csproj" />
   </ItemGroup>
 
