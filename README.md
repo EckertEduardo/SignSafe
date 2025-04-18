@@ -49,7 +49,8 @@ Framework: Xunit
      - mcr.microsoft.com/mssql/server:2019-latest
      - mcr.microsoft.com/dotnet/sdk:8.0
      - datalust/seq:latest
-     - eduardoeckert/signsafepresentation:v1
+     - eduardoeckert/signsafe.backend:latest
+     - eduardoeckert/signsafe.frontend:latest
        
 
 ### Logs
@@ -78,54 +79,39 @@ After you 'up' the docker compose file, the Seq will be available by following t
 </table>
 
 ---
-
 # How to run this application?
 
 ### Prerequisites:
-  1. You need to have the [DockerComposePlugin](https://docs.docker.com/compose/install) installed (Docker Desktop already includes Docker Compose).
-     To check, run this command in your CLI:
+  1. You need to have the [DockerDesktop](https://www.docker.com/get-started) installed.
+     To check, run these commands in your CLI:
      ```
      docker compose version
      ```
      The output should look like: `Docker Compose version vX.Y.Z`
-    
-  2. You need create a **valid certificate** to be able to access the https port.
-     To create a valid certificate, run this command in your CLI:
-<br><br/>
-   (Windows)
      ```
-     dotnet dev-certs https -ep "C:\Users\<your-user-name>\AppData\Roaming\ASP.NET\Https\signsafe.pfx"  -p signSafePassword
+     docker --version
      ```
-   (MacOS)
-     ```
-     dotnet dev-certs https -ep \Users\<your-user-name>\.aspnet\https\aspnetapp.pfx -p 
-     ```
-     * In the preceding commands, replace `<your-user-name>` with the user local host machine.
+     The output should look like: `Docker version X.Y.Z, build abcdefg`
      
-     * The path maybe will be different depending on the OS. For more info, click [here](https://learn.microsoft.com/en-us/aspnet/core/security/docker-compose-https?view=aspnetcore-9.0)
      
-     * The password(after -p) must be `"signSafePassword"`
-
-     After this, you will need trust the certificate
-     Run this command in your CLI:
-     ```
-      dotnet dev-certs https --trust
-     ```
-      > ***!* Whithout this valid certificate, the command "docker compose up" will fail**
-
       
 ### Running:
 This is a containerized application, so you just need to follow these simple steps:
-1. Download the `docker-compose.yml` application file
-   * Obs: If needed, you can modify the output port inside the file. Default output ports -> `http -> 8080` | `https -> 8081`
-     
-2. Open your CLI, go to the directory where the docker-compose.yml was downloaded and execute:
-   ```
-   docker compose up
-   ```
+1. Download the run setup folder [RunSetup](https://github.com/EckertEduardo/SignSafe/tree/master/RunSetup)
+* **Windows** - Open the folder and execute the file **setup.ps1** with your cli or open your CLI, go to the directory where the folder was downloaded and execute:
+     ```
+     powershell -ExecutionPolicy Bypass -File setup.ps1
+     ```
+* **MacOs/Linux** - Open the folder and execute the file **setup.sh** with your cli or open your CLI, go to the directory where the folder was downloaded and execute:
+     ```
+     chmod +x setup.sh
+     ```
+* Obs: This setup will create a certificate for ssl connection and execute the docker-compose file
    
-3. Access the api by following this link -> [https://localhost/8081/swagger](https://localhost:8081/swagger/index.html)
-   * Obs: If you have modified the output port on step 2, you will need to update the URL -> [https://localhost/[output-port]/swagger]
-4. Access the Seq logs/dashboards by following this link -> [http://localhost/8082](http://localhost/8082)
+2. Access the **backend** api by following this link -> [https://localhost/8081/swagger](https://localhost:8081/swagger/index.html)
+3. Access the **frontend** by following this link -> [http://localhost/9090](http://localhost:9090)
+4. Access the **Seq logs/dashboards** by following this link -> [http://localhost/8082](http://localhost/8082)
+
+* Obs: If you have modified the output port of any service inside the docker-compose, you will need to update these URL's
   
      That's it!
