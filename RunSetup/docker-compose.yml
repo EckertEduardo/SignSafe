@@ -1,23 +1,21 @@
-version: '3.8'
-
 services:
   signsafe.backend:
     image: eduardoeckert/sign-safe-backend
     container_name: signsafe.backend
     environment:
-      - ASPNETCORE_ENVIRONMENT=Development
-      - ASPNETCORE_HTTP_PORTS=8080
-      - ASPNETCORE_HTTPS_PORTS=8081
-      - DB_HOST=signsafe.database
-      - DB_NAME=SignSafe
-      - DB_SA_PASSWORD=${DB_SA_PASSWORD}
-      - ASPNETCORE_Kestrel__Certificates__Default__Password=${CERT_PASSWORD}
-      - ASPNETCORE_Kestrel__Certificates__Default__Path=/signsafe.pfx
+      ASPNETCORE_ENVIRONMENT: Development
+      ASPNETCORE_HTTP_PORTS: 8080
+      ASPNETCORE_HTTPS_PORTS: 8081
+      DB_HOST: signsafe.database
+      DB_NAME: SignSafe
+      DB_SA_PASSWORD: ${DB_SA_PASSWORD}
+      ASPNETCORE_Kestrel__Certificates__Default__Password: ${CERT_PASSWORD}
+      ASPNETCORE_Kestrel__Certificates__Default__Path: /signsafe.pfx
     ports:
-      - 8080:8080
-      - 8081:8081
+      - "8080:8080"
+      - "8081:8081"
     volumes:
-      - ./Certificates/signsafe.pfx:/signsafe.pfx:ro
+      - ./certificates/signsafe.pfx:/signsafe.pfx:ro
     networks:
       - signsafe_network
     depends_on:
@@ -27,10 +25,10 @@ services:
     image: eduardoeckert/sign-safe-frontend
     container_name: signsafe.frontend
     environment:
-      - VITE_BACKEND_URL=https://signsafe.backend:8081/api
+      VITE_BACKEND_URL: https://localhost:8081/api
     ports:
-      - 9090:5173
-    command: ["npm", "run", "dev"]
+      - "9090:5173"
+    command: npm run dev
     depends_on:
       - signsafe.backend
     networks:
@@ -40,11 +38,11 @@ services:
     image: mcr.microsoft.com/mssql/server:2019-latest
     container_name: signsafe.database
     environment:
-      - ACCEPT_EULA=Y
-      - MSSQL_SA_PASSWORD=Password2019!
-      - MSSQL_PID=Developer
+      ACCEPT_EULA: "Y"
+      MSSQL_SA_PASSWORD: ${DB_SA_PASSWORD} 
+      MSSQL_PID: Developer
     ports:
-      - 1433:1433
+      - "1433:1433"
     volumes:
       - signsafe_sqlvolume:/var/opt/mssql
     networks:
@@ -55,12 +53,14 @@ services:
     image: datalust/seq:latest
     container_name: signsafe.seq
     environment:
-      - ACCEPT_EULA=Y
+      ACCEPT_EULA: "Y"
     ports:
-      - 5341:5341
-      - 8082:80
+      - "5341:5341"
+      - "8082:80"
     networks:
       - signsafe_network
+    logging:
+        driver: "none"
     restart: unless-stopped
 
 networks:
