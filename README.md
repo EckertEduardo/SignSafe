@@ -92,6 +92,12 @@ After you 'up' the docker compose file, the Seq will be available by following t
      docker --version
      ```
      The output should look like: `Docker version X.Y.Z, build abcdefg`
+  2. You need to have the [.NET SDK](https://dotnet.microsoft.com/en-us/download) installed.
+      To check, run this command in your CLI:
+     ```
+     dotnet --version
+     ```
+     The output should look like: `X.Y.Z`
      
      
       
