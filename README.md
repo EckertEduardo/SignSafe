@@ -104,7 +104,7 @@ After you 'up' the docker compose file, the Seq will be available by following t
 ### Running:
 This is a containerized application, so you just need to follow these simple steps:
 
-1. [Download the RunSetup folder](https://github.com/user-attachments/files/19806152/RunSetup.zip)
+1. [Download the RunSetup folder](https://github.com/EckertEduardo/SignSafe/releases/download/runsetup/RunSetup.zip)
 * **Windows** - Open the folder and execute the file **setup.ps1** with your cli or open your CLI, go to the directory where the folder was downloaded and execute:
      ```
      powershell -ExecutionPolicy Bypass -File setup.ps1
