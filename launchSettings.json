@@ -12,19 +12,6 @@
         "signsafe.seq": "StartWithoutDebugging",
         "signsafe.frontend": "StartWithoutDebugging"
       }
-    },
-    "Front": {
-      "commandName": "DockerCompose",
-      "commandVersion": "1.0",
-      "composeLaunchAction": "LaunchBrowser",
-      "composeLaunchServiceName": "signsafe.backend",
-      "composeLaunchUrl": "https://localhost:5173",
-      "serviceActions": {
-        "signsafe.backend": "StartDebugging",
-        "signsafe.database": "StartWithoutDebugging",
-        "signsafe.frontend": "StartWithoutDebugging",
-        "signsafe.seq": "StartWithoutDebugging"
-      }
     }
   }
 }

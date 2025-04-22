@@ -1,6 +1,6 @@
 services:
   signsafe.backend:
-    image: eduardoeckert/sign-safe-backend
+    image: eduardoeckert/sign-safe-backend:latest
     container_name: signsafe.backend
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
@@ -23,7 +23,7 @@ services:
       - signsafe.database
 
   signsafe.frontend:
-    image: eduardoeckert/sign-safe-frontend
+    image: eduardoeckert/sign-safe-frontend:latest
     container_name: signsafe.frontend
     environment:
       - VITE_BACKEND_URL=https://localhost:8081/api
