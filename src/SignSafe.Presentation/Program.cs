@@ -81,7 +81,9 @@ if (app.Environment.IsDevelopment())
     app.ApplyMigrations();
 }
 
-app.UseCors(options => options.WithOrigins("http://localhost:5173").AllowAnyHeader().AllowAnyMethod().AllowCredentials());
+app.UseCors(options => options
+.WithOrigins("http://localhost:5173", "http://localhost:9090")
+.AllowAnyHeader().AllowAnyMethod().AllowCredentials());
 app.UseHttpsRedirection();
 
 app.UseAuthentication();
