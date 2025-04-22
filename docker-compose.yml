@@ -13,7 +13,7 @@ services:
       - ASPNETCORE_Kestrel__Certificates__Default__Path=/home/app/.aspnet/https/signsafe.pfx
     build:
       context: .
-      dockerfile: SignSafe.Presentation/Dockerfile
+      dockerfile: src/SignSafe.Presentation/Dockerfile
     ports:
       - 8080:8080
       - 8081:8081
