@@ -28,7 +28,7 @@
                   width: 100%;
                   max-width: 500px;
                   margin: 70px 0px;
-                  background-color: #ffffff;
+                  background-color: #fafafa;
                 }
             
                 .main-content {
@@ -38,11 +38,11 @@
             
                 .button {
                   width: 100%;
-                  background: #22D172;
+                  background: #facc15;
                   text-decoration: none;
                   display: inline-block;
                   padding: 10px 0;
-                  color: #fff;
+                  color: #000000;
                   font-size: 14px;
                   text-align: center;
                   font-weight: bold;
@@ -62,8 +62,13 @@
             </head>
             
             <body>
-              <table width=""100%"" cellspacing=""0"" cellpadding=""0"" border=""0"" align=""center"" bgcolor=""#F6FAFB"">
+              <table width=""100%"" cellspacing=""0"" cellpadding=""0"" border=""0"" align=""center"" bgcolor=""#1c1917"">
                 <tbody>
+                  <tr>
+                    <td align=""center"" style=""padding-top: 40px; font-size: 24px; font-weight: bold; color: #fafafa; font-family: 'Larque BC', 'Open Sans', sans-serif;"">
+                       SignSafe
+                    </td>
+                  </tr>
                   <tr>
                     <td valign=""top"" align=""center"">
                       <table class=""container"" width=""600"" cellspacing=""0"" cellpadding=""0"" border=""0"">
@@ -79,7 +84,7 @@
                                   </tr>
                                   <tr>
                                     <td style=""padding: 0 0 10px; font-size: 14px; line-height: 150%;"">
-                                      You are just one step away to verify your account for this email: <span style=""color: #4C83EE;"">{{email}}</span>.
+                                      You are just one step away to verify your account for this email: <span style=""color: #ca8a04;"">{{email}}</span>.
                                     </td>
                                   </tr>
                                   <tr>
@@ -94,7 +99,7 @@
                                   </tr>
                                   <tr>
                                     <td style=""padding: 0 0 10px; font-size: 14px; line-height: 150%;"">
-                                      This OTP is valid for 24 hours.
+                                      For security purposes, this OTP will expire in 10 minutes.
                                     </td>
                                   </tr>
                                 </tbody>
@@ -137,7 +142,7 @@
                   width: 100%;
                   max-width: 500px;
                   margin: 70px 0px;
-                  background-color: #ffffff;
+                  background-color: #fafafa;
                 }
             
                 .main-content {
@@ -147,11 +152,11 @@
             
                 .button {
                   width: 100%;
-                  background: #22D172;
+                  background: #facc15;
                   text-decoration: none;
                   display: inline-block;
                   padding: 10px 0;
-                  color: #fff;
+                  color: #000000;
                   font-size: 14px;
                   text-align: center;
                   font-weight: bold;
@@ -171,8 +176,13 @@
             </head>
             
             <body>
-              <table width=""100%"" cellspacing=""0"" cellpadding=""0"" border=""0"" align=""center"" bgcolor=""#F6FAFB"">
+              <table width=""100%"" cellspacing=""0"" cellpadding=""0"" border=""0"" align=""center"" bgcolor=""#1c1917"">
                 <tbody>
+                  <tr>
+                    <td align=""center"" style=""padding-top: 40px; font-size: 24px; font-weight: bold; color: #fafafa; font-family: 'Larque BC', 'Open Sans', sans-serif;"">
+                       SignSafe
+                    </td>
+                  </tr>
                   <tr>
                     <td valign=""top"" align=""center"">
                       <table class=""container"" width=""600"" cellspacing=""0"" cellpadding=""0"" border=""0"">
@@ -188,7 +198,7 @@
                                   </tr>
                                   <tr>
                                     <td style=""padding: 0 0 10px; font-size: 14px; line-height: 150%;"">
-                                      We received a password reset request for your account: <span style=""color: #4C83EE;"">{{email}}</span>.
+                                      We received a password reset request for your account: <span style=""color: #ca8a04;"">{{email}}</span>.
                                     </td>
                                   </tr>
                                   <tr>
@@ -203,7 +213,7 @@
                                   </tr>
                                   <tr>
                                     <td style=""padding: 0 0 10px; font-size: 14px; line-height: 150%;"">
-                                      The password reset otp is only valid for the next 15 minutes.
+                                      For security purposes, this OTP will expire in 10 minutes.
                                     </td>
                                   </tr>
                                 </tbody>
