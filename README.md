@@ -1,5 +1,5 @@
 # SignSafe
-![SignSafe](https://github.com/EduardoEckert/SignSafe/assets/89213922/6633e139-4cf6-41ff-ba04-4bc983607b3f)
+![SignSafe](https://github.com/user-attachments/assets/4b63c9cb-ef14-412a-9e16-354d0a10e3b9)
 
 [![NPM](https://img.shields.io/badge/license-MIT-green)](https://github.com/EduardoEckert/SignSafe/blob/develop/LICENSE)
 
