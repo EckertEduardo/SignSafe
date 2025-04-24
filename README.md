@@ -7,24 +7,33 @@
 
 > **Status**: 🛠️ In Development
 
-**SignSafe** is a secure web application designed for managing users — enabling registration, login, user updates, and deletion. It provides secure authentication mechanisms, user role attribution, and detailed logging via SEQ.
+**SignSafe** is a secure web application for user management. It allows users to register, log in, update profiles, and delete accounts while ensuring security with features like email verification and OTP-based password reset.
 
 ---
 
 ## ✨ Features
 
--  Secure Login / Signup
--  Email Verification via OTP
--  Password Reset via OTP
+- **Secure Login / Signup**: Users can create accounts and securely log in using industry-standard practices.
+- **Email Verification via OTP**: Ensures that users verify their email addresses before proceeding with account setup.
+- **Password Reset via OTP**: Forgot your password? Securely reset it with an OTP sent to your email.
 
 ### 🛠 Coming Soon
 
 -  Role-based access control
--  View all users
--  Delete users
+-  User listing with search/filter
+-  User deletion
+---
+## UI Preview
+### Home Page
+![image](https://github.com/user-attachments/assets/a6bc16cb-3205-40d4-8451-f71687dfba8a)
+
+### Create your account
+![image](https://github.com/user-attachments/assets/17960e17-7134-453d-903d-f2351631635c)
+
+### Validate your email with an OTP code
+![image](https://github.com/user-attachments/assets/63a0e2bc-1632-4ab3-9b4c-22949f68a2ba)
 
 ---
-
 ## Architecture
 
 - [Onion Architecture](https://codewithmukesh.com/blog/onion-architecture-in-aspnet-core/)
