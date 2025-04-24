@@ -49,8 +49,8 @@ Framework: Xunit
      - mcr.microsoft.com/mssql/server:2019-latest
      - mcr.microsoft.com/dotnet/sdk:8.0
      - datalust/seq:latest
-     - eduardoeckert/signsafe.backend:latest
-     - eduardoeckert/signsafe.frontend:latest
+     - eduardoeckert/sign-safe-backend:latest
+     - eduardoeckert/sign-safe-frontend:latest
        
 
 ### Logs
