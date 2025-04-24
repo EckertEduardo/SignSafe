@@ -7,6 +7,15 @@
 
 ## Web application, responsible for create, update, visualize and delete users. You be able to log in securely, management users, and attribute roles for each one.
 
+### Features
+* Login/SignUp securely
+* Email Verification OTP
+* Password Reset OTP
+
+### Coming Soon
+* Role attribution
+* Visualize alist of users and delete option
+
 ### Architetural pattern
 * [Onion Architecture](https://codewithmukesh.com/blog/onion-architecture-in-aspnet-core/)
 * [CQRS](https://learn.microsoft.com/pt-br/azure/architecture/patterns/cqrs)
@@ -19,7 +28,7 @@
 * DDD
 * [IoC, DI e DIP](https://balta.io/blog/inversion-of-control)
 
-### Features
+### Tooling
 * Authentication/Authorization with JWT Bearer Token
 * Pasword hashing with AspNet Identity
 * Logging with Serilog
