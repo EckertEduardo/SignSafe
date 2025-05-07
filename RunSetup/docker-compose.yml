@@ -1,3 +1,4 @@
+name: signsafe
 services:
   signsafe.backend:
     image: eduardoeckert/sign-safe-backend
