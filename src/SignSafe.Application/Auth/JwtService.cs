@@ -21,7 +21,7 @@ namespace SignSafe.Application.Auth
 
         public UserTokenInfo? GetUserTokenInfo()
         {
-            var token = _httpContextAccessor.HttpContext?.Request?.Headers["Authorization"]
+            var token = _httpContextAccessor.HttpContext?.Request?.Headers["Authorization"].ToString()
                             ?? _httpContextAccessor.HttpContext?.Request?.Cookies["JwtToken"];
 
             if (string.IsNullOrEmpty(token))
@@ -29,43 +29,13 @@ namespace SignSafe.Application.Auth
 
             var securityToken = ConvertToken(token!);
 
-            if (!long.TryParse(securityToken.Claims.FirstOrDefault(x => x.Type == "userId")?.Value, out long userId))
-                throw new Exception();
+            var userIdIsValid = long.TryParse(securityToken.Claims.FirstOrDefault(x => x.Type == "userId")?.Value, out long userId);
 
             var email = securityToken.Claims
                 .FirstOrDefault(x => x.Type.Equals(nameof(ClaimTypes.Email), StringComparison.OrdinalIgnoreCase))
                 ?.Value;
 
-            if (string.IsNullOrWhiteSpace(email))
-                throw new Exception();
-
-            var roles = securityToken.Claims
-                .Where(x => x.Type.Equals(nameof(ClaimTypes.Role), StringComparison.OrdinalIgnoreCase))
-                .Select(x => x.Value)
-                .ToArray();
-
-            var userTokenInfo = new UserTokenInfo(userId, email, roles);
-            return userTokenInfo;
-        }
-
-        public UserTokenInfo TryGetUserTokenInfo()
-        {
-            var token = _httpContextAccessor.HttpContext?.Request?.Headers["Authorization"]
-                            ?? _httpContextAccessor.HttpContext?.Request?.Cookies["JwtToken"];
-
-            if (string.IsNullOrEmpty(token))
-                throw new Exception();
-
-            var securityToken = ConvertToken(token!);
-
-            if (!long.TryParse(securityToken.Claims.FirstOrDefault(x => x.Type == "userId")?.Value, out long userId))
-                throw new Exception();
-
-            var email = securityToken.Claims
-                .FirstOrDefault(x => x.Type.Equals(nameof(ClaimTypes.Email), StringComparison.OrdinalIgnoreCase))
-                ?.Value;
-
-            if (string.IsNullOrWhiteSpace(email))
+            if (string.IsNullOrWhiteSpace(email) || !userIdIsValid)
                 throw new Exception();
 
             var roles = securityToken.Claims

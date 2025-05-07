@@ -16,7 +16,7 @@ namespace SignSafe.Domain.Entities
         public DateTime? OtpVerificationCodeExpiration { get; private set; }
         public string? PhoneNumber { get; private set; }
 
-        public User(string name, string email, string password, DateTime birthDate, string? phoneNumber)
+        public User(string name, string email, string password, DateTime birthDate, string? phoneNumber = null)
         {
             Name = name;
             Email = email;
