@@ -19,12 +19,14 @@ namespace SignSafe.Infrastructure.Repositories
             var query = _context.Set<User>().AsNoTracking()
                 .WhereIf(!string.IsNullOrEmpty(filter.Name), x => x.Name == filter.Name)
                 .WhereIf(!string.IsNullOrEmpty(filter.Email), x => x.Email == filter.Email)
-                .Select(x => x);
+                .Select(x => x)
+                .OrderByDescending(x => x.Enabled)
+                .ThenBy(x => x.Name);
 
             var count = await query.CountAsync();
 
             var result = await query
-                .Skip(pagination.Page)
+                .Skip(pagination.Size * pagination.Page)
                 .Take(pagination.Size)
                 .ToListAsync();
 

@@ -15,6 +15,7 @@ namespace SignSafe.Infrastructure.EntityConfig
             builder.Property(x => x.Password).IsRequired();
             builder.Property(x => x.Roles).IsRequired().HasDefaultValue(UserRoles.Standard.GetDescription());
             builder.Property(x => x.VerifiedAccount).IsRequired().HasDefaultValue(false);
+            builder.Property(x => x.Enabled).IsRequired().HasDefaultValue(true);
             builder.Property(x => x.OtpVerificationCode).HasMaxLength(6).IsFixedLength();
         }
     }

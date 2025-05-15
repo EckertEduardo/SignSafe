@@ -3,6 +3,8 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using SignSafe.Application.Auth;
 using SignSafe.Application.Users.Commands.Delete;
+using SignSafe.Application.Users.Commands.Disable;
+using SignSafe.Application.Users.Commands.Enable;
 using SignSafe.Application.Users.Commands.Insert;
 using SignSafe.Application.Users.Commands.ResetPassword;
 using SignSafe.Application.Users.Commands.SendOtpEmail;
@@ -172,8 +174,8 @@ namespace SignSafe.Presentation.Controllers
             return Ok();
         }
 
-        [HttpPut]
-        [Roles(RolesScheme.Admin)]
+        [HttpPatch]
+        //[Roles(RolesScheme.Admin)]
         [Route("update-roles")]
         public async Task<IActionResult> UpdateRoles([FromQuery] UpdateRolesCommand command)
         {
@@ -181,8 +183,28 @@ namespace SignSafe.Presentation.Controllers
             return Ok();
         }
 
+        [HttpPatch]
+        //[Roles(RolesScheme.Admin)]
+        [Route("enable/{id}")]
+        public async Task<IActionResult> Enable(long id)
+        {
+            var command = new EnableUserCommand { UserId = id };
+            await _mediator.Send(command);
+            return Ok();
+        }
+
+        [HttpPatch]
+        //[Roles(RolesScheme.Admin)]
+        [Route("disable/{id}")]
+        public async Task<IActionResult> Disable(long id)
+        {
+            var command = new DisableUserCommand { UserId = id };
+            await _mediator.Send(command);
+            return Ok();
+        }
+
         [HttpDelete]
-        [Roles(RolesScheme.Admin)]
+        //[Roles(RolesScheme.Admin)]
         [Route("delete/{id}")]
         public async Task<IActionResult> Delete(long id)
         {

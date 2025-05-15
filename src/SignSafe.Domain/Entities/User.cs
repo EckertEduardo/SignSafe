@@ -15,6 +15,7 @@ namespace SignSafe.Domain.Entities
         public string? OtpVerificationCode { get; private set; }
         public DateTime? OtpVerificationCodeExpiration { get; private set; }
         public string? PhoneNumber { get; private set; }
+        public bool Enabled { get; private set; }
 
         public User(string name, string email, string password, DateTime birthDate, string? phoneNumber = null)
         {
@@ -81,5 +82,14 @@ namespace SignSafe.Domain.Entities
             return hasher.HashPassword(password);
         }
 
+        public void Enable()
+        {
+            Enabled = true;
+        }
+
+        public void Disable()
+        {
+            Enabled = false;
+        }
     }
 }

@@ -8,15 +8,28 @@ namespace SignSafe.Application.Users.Dtos
     {
         [Required]
         public long Id { get; init; }
+
         [Required]
         public string Name { get; init; }
+
         [Required]
         public string Email { get; init; }
+
         [Required]
         public DateTime Birthdate { get; init; }
 
         [Required]
+        public string Roles { get; init; }
+
+        [Required]
         public bool VerifiedAccount { get; init; }
+
+        [Required]
+        public bool Enabled { get; init; }
+
+        [Required]
+        public bool Deleted { get; init; }
+
         public string? PhoneNumber { get; init; }
 
         [JsonConstructor]
@@ -34,8 +47,11 @@ namespace SignSafe.Application.Users.Dtos
             Name = user.Name;
             Email = user.Email;
             Birthdate = user.BirthDate;
+            Roles = user.Roles;
             PhoneNumber = user.PhoneNumber;
             VerifiedAccount = user.VerifiedAccount;
+            Enabled = user.Enabled;
+            Deleted = user.Deleted;
         }
     }
 }

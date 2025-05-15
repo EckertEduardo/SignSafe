@@ -10,6 +10,6 @@ namespace SignSafe.Application.Users.Commands.UpdateRole
         public long UserId { get; init; }
 
         [Required]
-        public required List<UserRoles> UserRoles { get; init; }
+        public required List<UserRoles> Roles { get; init; }
     }
 }

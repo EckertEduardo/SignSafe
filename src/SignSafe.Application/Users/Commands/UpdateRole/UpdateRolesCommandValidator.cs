@@ -11,7 +11,7 @@ namespace SignSafe.Application.Users.Commands.UpdateRole
                 .Id(RuleFor(x => x.UserId));
 
             UserValidationRules
-                .UserRoles(RuleFor(x => x.UserRoles));
+                .UserRoles(RuleFor(x => x.Roles));
         }
     }
 }
