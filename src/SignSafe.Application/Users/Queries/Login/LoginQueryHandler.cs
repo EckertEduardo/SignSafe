@@ -29,7 +29,8 @@ namespace SignSafe.Application.Users.Queries.Login
                     return new LoginQueryResponse
                     {
                         JwtToken = token,
-                        ExpiresIn = _jwtService.ConvertToken(token).ValidTo
+                        ExpiresIn = _jwtService.ConvertToken(token).ValidTo,
+                        Enabled = user.Enabled
                     };
                 }
             }

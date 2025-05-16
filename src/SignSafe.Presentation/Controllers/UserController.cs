@@ -92,6 +92,10 @@ namespace SignSafe.Presentation.Controllers
             {
                 return Unauthorized("Incorrect Email or Password! Please, try again.");
             }
+            if (!result.Enabled)
+            {
+                return Unauthorized("User disabled! Please contact an administrator.");
+            }
 
             var cookieOptions = new CookieOptions
             {

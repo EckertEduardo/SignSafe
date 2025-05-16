@@ -24,6 +24,7 @@ namespace SignSafe.Domain.Entities
             Password = EncryptUserPassword(password);
             BirthDate = birthDate;
             PhoneNumber = phoneNumber;
+            Enabled = true;
         }
 
         private User() { }

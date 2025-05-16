@@ -4,5 +4,7 @@
     {
         public string JwtToken { get; init; } = string.Empty;
         public DateTime ExpiresIn { get; init; }
+
+        public bool Enabled { get; init; }
     }
 }
