@@ -130,7 +130,7 @@ SEQ helps collect, search, and visualize structured logs:
 
 ## Running the Application
 
-1. [Download the RunSetup folder](https://github.com/EckertEduardo/SignSafe/releases/download/runsetup/RunSetup.zip)
+1. [Download the RunSetup folder](https://github.com/EckertEduardo/SignSafe-Backend/releases/download/runsetup/RunSetup.rar)
 
 2. Execute the setup script:
 
