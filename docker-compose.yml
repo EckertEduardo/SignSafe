@@ -31,7 +31,7 @@ services:
     environment:
       - VITE_BACKEND_URL=https://localhost:8081/api
     build:
-      context: ./SignSafe-Front/signsafe
+      context: ./Front/signsafe
       dockerfile: Dockerfile
     ports:
       - 9090:5173

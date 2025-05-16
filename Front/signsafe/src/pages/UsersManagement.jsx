@@ -13,6 +13,7 @@ const UsersManagement = () => {
     const { api, globalExceptionFilter } = useContext(AppContext)
     const [usersData, setUsersData] = useState(null)
     const [showRoleUpdateModal, setShowRoleUpdateModal] = useState(false);
+    const [showDeleteModal, setShowDeleteModal] = useState(false);
     const [editingUser, setEditingUser] = useState(null);
     const [selectedRoles, setSelectedRoles] = useState([]);
     const [currentPage, setCurrentPage] = useState(1);
@@ -30,7 +31,7 @@ const UsersManagement = () => {
                 params:
                 {
                     'Pagination.Page': page,
-                    'Pagination.Size': 2
+                    'Pagination.Size': 10
                 }
             });
 
@@ -105,8 +106,27 @@ const UsersManagement = () => {
         setShowRoleUpdateModal(true);
     };
 
+    const handleDelete = async () => {
+        if (!editingUser) return;
+
+        try {
+            await api.delete(`/users/delete/${editingUser.id}`);
+
+            toast.success("User deleted successfully!");
+            setShowDeleteModal(false);
+            getUsers(currentPage);
+        } catch (error) {
+            globalExceptionFilter(error);
+        }
+    };
+
+    const openDeleteModal = (user) => {
+        setEditingUser(user);
+        setShowDeleteModal(true);
+    };
+
     return (
-        <div className="flex items-start justify-center min-h-screen bg-stone-900 relative pt-14">
+        <div className="flex items-start justify-center min-h-screen bg-stone-900 relative pt-14 " style={{ minWidth: 'max-content' }}>
             <img
                 onClick={() => navigate('/')}
                 src={assets.logo}
@@ -114,7 +134,7 @@ const UsersManagement = () => {
                 className="absolute left-5 sm:left-20 top-5 w-28 sm:w-32 cursor-pointer"
             />
 
-            <div className="rounded-lg shadow-lg p-6 w-full max-w-7xl">
+            <div className="rounded-sm shadow-xl p-6 w-full max-w-[1400px] border-1">
                 <h2 className="text-3xl font-bold text-stone-300 mb-4 text-center">Users</h2>
 
                 <table className="min-w-full border border-stone-300 rounded-lg shadow">
@@ -126,7 +146,7 @@ const UsersManagement = () => {
                             <th className="px-4 py-2 border">Roles</th>
                             <th className="px-4 py-2 border">Enabled</th>
                             <th className="px-4 py-2 border">VerifiedAccount</th>
-                            <th className="px-4 py-2 border">Actions</th>
+                            <th className="px-4 py-2 border border-stone-900 bg-stone-900"></th>
                         </tr>
                     </thead>
                     <tbody className="bg-zinc-50">
@@ -161,27 +181,35 @@ const UsersManagement = () => {
                                         {user.verifiedAccount ? '✔' : '✘'}
                                     </span>
                                 </td>
-                                <td className="px-4 py-2 border space-x-2">
-                                    <button
-                                        onClick={() => openRoleUpdateModal(user)}
-                                        className="bg-yellow-400 text-white px-3 py-1 rounded hover:bg-yellow-300 transition-all duration-500 cursor-pointer"
-                                    >
-                                        Edit Role
-                                    </button>
-                                    {user.enabled &&
+                                <td className="px-4 py-2 border border-stone-900 space-x-1 bg-stone-900">
+                                    <div className="flex flex-between space-x-1">
                                         <button
-                                            onClick={() => handleDisable(user.id)}
-                                            className="bg-red-800 text-white px-3 py-1 rounded hover:bg-red-700 transition-all duration-500 cursor-pointer"
+                                            onClick={() => openRoleUpdateModal(user)}
+                                            className="w-28 min-w-fit text-sm bg-yellow-400 text-black px-3 py-1 rounded hover:bg-yellow-300 transition-all duration-500 cursor-pointer"
                                         >
-                                            Disable User
-                                        </button>}
-                                    {!user.enabled &&
+                                            Edit Role
+                                        </button>
+                                        {user.enabled &&
+                                            <button
+                                                onClick={() => handleDisable(user.id)}
+                                                className="w-28 min-w-fit bg-red-800 text-white px-3 py-1 rounded hover:bg-red-700 transition-all duration-500 cursor-pointer"
+                                            >
+                                                Disable User
+                                            </button>}
+                                        {!user.enabled &&
+                                            <button
+                                                onClick={() => handleEnable(user.id)}
+                                                className="w-28 min-w-fit bg-green-800 text-white px-3 py-1 rounded hover:bg-green-700 transition-all duration-500 cursor-pointer"
+                                            >
+                                                Enable User
+                                            </button>}
                                         <button
-                                            onClick={() => handleEnable(user.id)}
-                                            className="bg-green-800 text-white px-3 py-1 rounded hover:bg-green-700 transition-all duration-500 cursor-pointer"
+                                            onClick={() => openDeleteModal(user)}
+                                            className="w-14 min-w-fit h-8 flex items-center justify-center text-red-500 px-3 py-1 rounded hover:bg-zinc-50 transition-all duration-500 cursor-pointer text-2xl"
                                         >
-                                            Enable User
-                                        </button>}
+                                            ×
+                                        </button>
+                                    </div>
                                 </td>
                             </tr>
                         ))}
@@ -249,6 +277,42 @@ const UsersManagement = () => {
                                 <button
                                     className="mt-4 bg-red-800 text-white px-4 py-2 rounded hover:bg-red-700 cursor-pointer"
                                     onClick={() => setShowRoleUpdateModal(false)}
+                                >
+                                    Cancel
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                )
+            }
+            {
+                showDeleteModal && (
+                    <div className="fixed inset-0 backdrop-blur-xs bg-white/1 flex justify-center items-center z-50">
+                        <div className="bg-white p-6 rounded-lg shadow-lg w-96 relative">
+                            <button
+                                className="absolute top-2 right-4 text-stone-500 hover:text-black text-3xl leading-none cursor-pointer"
+                                onClick={() => setShowDeleteModal(false)}
+                            >
+                                ×
+                            </button>
+                            <h3 className="text-lg mb-4">
+                                Do you really want to delete the user <span className='font-bold text-yellow-600'>{editingUser?.name}</span>?
+                                <h4 className='text-sm text-stone-500'>This action cannot be undone!</h4>
+                            </h3>
+
+                            <div className="flex gap-2">
+                                <button
+                                    className={"mt-4 px-4 py-2 rounded text-white  transition-all duration-300 bg-red-800 hover:bg-red-700 cursor-pointer"}
+                                    onClick={() => {
+                                        handleDelete();
+                                        setShowDeleteModal(false);
+                                    }}
+                                >
+                                    Delete
+                                </button>
+                                <button
+                                    className="mt-4 bg-stone-700 text-white px-4 py-2 rounded hover:bg-stone-600 cursor-pointer"
+                                    onClick={() => setShowDeleteModal(false)}
                                 >
                                     Cancel
                                 </button>

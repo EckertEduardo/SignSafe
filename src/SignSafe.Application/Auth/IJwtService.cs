@@ -8,5 +8,6 @@ namespace SignSafe.Application.Auth
         UserTokenInfo? GetUserTokenInfo();
         JwtSecurityToken ConvertToken(string token);
         string GenerateToken(User user);
+        void RefreshToken(User user);
     }
 }

@@ -81,5 +81,20 @@ namespace SignSafe.Application.Auth
             var token = tokenHandler.CreateToken(tokenDescriptor);
             return tokenHandler.WriteToken(token);
         }
+
+        public void RefreshToken(User user)
+        {
+            var token = GenerateToken(user);
+            var cookieOptions = new CookieOptions
+            {
+                HttpOnly = true,
+                Secure = true, // Set to false if testing without HTTPS
+                SameSite = SameSiteMode.None,
+                Expires = ConvertToken(token).ValidTo,
+                Path = "/"
+            };
+
+            _httpContextAccessor.HttpContext?.Response.Cookies.Append("jwt", token, cookieOptions);
+        }
     }
 }

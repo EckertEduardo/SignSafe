@@ -56,7 +56,10 @@ export const AppContextProvider = (props) => {
     );
 
     const globalExceptionFilter = (error) => {
-        if (error?.response?.data?.errors != null) {
+        if(error?.status == HttpStatusCode.Forbidden || error?.status == HttpStatusCode.Unauthorized){
+            toast.error("Unauthorized User!")
+        }
+        else if (error?.response?.data?.errors != null) {
             Object.entries(error.response.data.errors).forEach(x => {
                 toast.error(x[1][0])
             });

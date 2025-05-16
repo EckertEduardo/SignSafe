@@ -188,7 +188,7 @@ namespace SignSafe.Presentation.Controllers
         }
 
         [HttpPatch]
-        //[Roles(RolesScheme.Admin)]
+        [Roles(RolesScheme.Admin)]
         [Route("enable/{id}")]
         public async Task<IActionResult> Enable(long id)
         {
@@ -198,7 +198,7 @@ namespace SignSafe.Presentation.Controllers
         }
 
         [HttpPatch]
-        //[Roles(RolesScheme.Admin)]
+        [Roles(RolesScheme.Admin)]
         [Route("disable/{id}")]
         public async Task<IActionResult> Disable(long id)
         {
@@ -208,7 +208,7 @@ namespace SignSafe.Presentation.Controllers
         }
 
         [HttpDelete]
-        //[Roles(RolesScheme.Admin)]
+        [Roles(RolesScheme.Admin)]
         [Route("delete/{id}")]
         public async Task<IActionResult> Delete(long id)
         {

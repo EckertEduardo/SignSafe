@@ -48,7 +48,8 @@ if (-Not (Test-Path $certPath)) {
         Stop-Transcript
         exit 1
     }
-} else {
+}
+else {
     Write-Host "Certificate already exists at '$certPath'" -ForegroundColor Yellow
 }
 
@@ -59,11 +60,22 @@ Write-Host "Certificate trusted successfully." -ForegroundColor Green
 
 Write-Host "--------------------------------------------//--------------------------------------------"
 
-# Start Docker Compose in another window
-Write-Host "Starting Docker Compose in a new window..." -ForegroundColor Cyan
+Write-Host "Starting Docker Compose" -ForegroundColor Cyan
 try {
-    Start-Process powershell -ArgumentList "-NoExit", "-ExecutionPolicy Bypass", "-File docker-compose-up-setup.ps1"
-    Write-Host "Docker Compose is running in a separate window." -ForegroundColor Green
+    # Starting docker compose up
+    Write-Host "Starting command docker compose up at $(Get-Date)" -ForegroundColor Cyan
+
+    Write-Host ""
+    Write-Host " -----------------------------------------------------------" -ForegroundColor Yellow
+    Write-Host "|  WARNING: Do NOT close this window!                       |" -ForegroundColor Yellow
+    Write-Host "|  This window runs Docker Compose and keeps it alive.      |" -ForegroundColor Yellow
+    Write-Host "|  If you close it, all containers will STOP.               |" -ForegroundColor Yellow
+    Write-Host " -----------------------------------------------------------" -ForegroundColor Yellow
+    Write-Host ""
+
+
+    docker compose up --build
+
 }
 catch {
     Write-Host "Failed to launch Docker Compose script: $_" -ForegroundColor Red
