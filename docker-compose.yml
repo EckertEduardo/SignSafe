@@ -11,7 +11,7 @@ services:
       - DB_NAME=SignSafe
       - DB_SA_PASSWORD=Password2019! 
       - ASPNETCORE_Kestrel__Certificates__Default__Password=signSafePassword
-      - ASPNETCORE_Kestrel__Certificates__Default__Path=/home/app/.aspnet/https/signsafe.pfx
+      - ASPNETCORE_Kestrel__Certificates__Default__Path=/https/signsafe.pfx
     build:
       context: .
       dockerfile: src/SignSafe.Presentation/Dockerfile
@@ -22,6 +22,8 @@ services:
       - signsafenetwork
     depends_on:
       - signsafe.database
+    volumes:
+      - ./RunSetup/certificates:/https
 
   signsafe.frontend:
     image: eduardoeckert/sign-safe-frontend:latest
@@ -29,8 +31,8 @@ services:
     environment:
       - VITE_BACKEND_URL=https://localhost:8081/api
     build:
-      context: C:/Users/eduar/source/repos/SignSafe-Front/signsafe
-      dockerfile: C:/Users/eduar/source/repos/SignSafe-Front/signsafe/Dockerfile
+      context: ./SignSafe-Front/signsafe
+      dockerfile: Dockerfile
     ports:
       - 9090:5173
     command: ["npm", "run", "dev"]

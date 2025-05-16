@@ -35,4 +35,12 @@
     <ProjectReference Include="..\SignSafe.Ioc\SignSafe.Ioc.csproj" />
   </ItemGroup>
 
+  <Target Name="PreBuild" BeforeTargets="PreBuildEvent">
+	<!-- Create the certificates folder if it doesn't exist -->
+	<Exec Command="powershell -ExecutionPolicy Bypass -Command &quot;if (-not (Test-Path '..\..\RunSetup\certificates')) { New-Item -ItemType Directory -Path '..\..\RunSetup\certificates' | Out-Null }&quot;" />
+
+	<!-- Generate the certificate if it doesn't exist -->
+	<Exec Command="powershell -ExecutionPolicy Bypass -Command &quot;if (-not (Test-Path '..\..\RunSetup\certificates\signsafe.pfx')) { dotnet dev-certs https -ep '..\..\RunSetup\certificates\signsafe.pfx' -p 'signSafePassword' }&quot;" />
+  </Target>
+	
 </Project>
