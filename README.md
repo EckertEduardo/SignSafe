@@ -126,6 +126,10 @@ SEQ helps collect, search, and visualize structured logs:
 
 #### Running the Application
 1. [Download the Docker Compose file](https://github.com/EckertEduardo/SignSafe-Backend/releases/download/dockerCompose/docker-compose.yml)
+2. Go to the directory where you downloaded and execute: 
+   ```bash
+    docker compose up
+    ```
 ##
 </details>
 
