@@ -114,28 +114,43 @@ SEQ helps collect, search, and visualize structured logs:
 ---
 
 # 🚀 Getting Started
+<details>
+<summary>Running With HTTP (Recommended)</summary>
 
-## Prerequisites
+#### Prerequisites
 
 1. Install [Docker Desktop](https://www.docker.com/get-started)
     ```bash
     docker --version
     ```
+
+#### Running the Application
+1. [Download the DockerCompose file](https://github.com/EckertEduardo/SignSafe-Backend/releases/download/runsetup/RunSetup.rar)
+##
+</details>
+
+<details>
+<summary>Running With HTTPS (Optional)</summary>
+
+#### Prerequisites
+1. Install [Docker Desktop](https://www.docker.com/get-started)
+    ```bash
+    docker --version
+    ```
+    
 2. Install [.NET SDK](https://dotnet.microsoft.com/en-us/download)
+
     ```bash
     dotnet --version
     ```
 
----
+3. [Download the RunSetup folder](https://github.com/EckertEduardo/SignSafe-Backend/releases/download/runsetup/RunSetup.rar)
 
-## Running the Application
-
-1. [Download the RunSetup folder](https://github.com/EckertEduardo/SignSafe-Backend/releases/download/runsetup/RunSetup.rar)
-
-2. Execute the setup script:
+#### Running the Application
+1. Execute the setup script:
 
 <details>
-<summary>Windows</summary>
+<summary><strong>Windows</strong></summary>
 
 ```bash
 powershell -ExecutionPolicy Bypass -File setup.ps1
@@ -153,12 +168,26 @@ chmod +x setup.sh
 
 > 📝 This script will generate SSL certificates and start the Docker containers.
 
+> ❌ This script may not work correctly on Linux or Windows, depending on the distribution. If you encounter any certificate-related issues, it's recommended to run the application without HTTPS by following the earlier instructions.
+
+</details>
+
 ---
 
 ### 🔗 Access the Application
+<details>
+  <summary>Backend API (HTTPS - Swagger UI): (OPTIONAL)</summary>
 
-- **Backend API (Swagger)**: [https://localhost:8081/swagger](https://localhost:8081/swagger/index.html)  
-- **Frontend**: [http://localhost:9090](http://localhost:9090)  
-- **SEQ Logs**: [http://localhost:8082](http://localhost:8082)
+  [https://localhost:8081/swagger](https://localhost:8081/swagger/index.html)
+</details>
+  
+- **Backend API (HTTP - Swagger UI):**  
+  [http://localhost:8080/swagger](http://localhost:8080/swagger/index.html)
+
+- **Frontend Application:**  
+  [http://localhost:9090](http://localhost:9090)
+
+- **SEQ Logging Dashboard:**  
+  [http://localhost:8082](http://localhost:8082)
 
 > 💡 *If you change any service port in the docker-compose file, update the URLs accordingly.*
