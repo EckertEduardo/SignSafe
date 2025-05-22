@@ -125,7 +125,7 @@ SEQ helps collect, search, and visualize structured logs:
     ```
 
 #### Running the Application
-1. [Download the DockerCompose file](https://github.com/EckertEduardo/SignSafe-Backend/releases/download/runsetup/RunSetup.rar)
+1. [Download the Docker Compose file](https://github.com/EckertEduardo/SignSafe-Backend/releases/download/dockerCompose/docker-compose.yml)
 ##
 </details>
 
