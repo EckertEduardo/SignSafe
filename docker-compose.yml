@@ -6,30 +6,30 @@ services:
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
       - ASPNETCORE_HTTP_PORTS=8080
-      - ASPNETCORE_HTTPS_PORTS=8081
+      # - ASPNETCORE_HTTPS_PORTS=8081
       - DB_HOST=signsafe.database
       - DB_NAME=SignSafe
       - DB_SA_PASSWORD=Password2019! 
-      - ASPNETCORE_Kestrel__Certificates__Default__Password=signSafePassword
-      - ASPNETCORE_Kestrel__Certificates__Default__Path=/https/signsafe.pfx
+      # - ASPNETCORE_Kestrel__Certificates__Default__Password=signSafePassword
+      # - ASPNETCORE_Kestrel__Certificates__Default__Path=/https/signsafe.pfx
     build:
       context: .
       dockerfile: src/SignSafe.Presentation/Dockerfile
     ports:
       - 8080:8080
-      - 8081:8081
+      # - 8081:8081
     networks:
       - signsafenetwork
     depends_on:
       - signsafe.database
-    volumes:
-      - ./RunSetup/certificates:/https
+    # volumes:
+    #   - ./RunSetup/certificates:/https
 
   signsafe.frontend:
     image: eduardoeckert/sign-safe-frontend:latest
     container_name: signsafe.frontend
     environment:
-      - VITE_BACKEND_URL=https://localhost:8081/api
+      - VITE_BACKEND_URL=http://localhost:8080/api
     build:
       context: ./Front/signsafe
       dockerfile: Dockerfile
